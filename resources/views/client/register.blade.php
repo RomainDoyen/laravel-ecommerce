@@ -15,11 +15,24 @@
 				<div class="image-holder">
 					<img src="{{ asset('assets/images/registration-form-1.jpg') }}" alt="">
 				</div>
-				<form action="">
+				<form method="POST" action="{{ route('client.register.post') }}">
+					@csrf
+					@method('POST')
 					<h3>S'Inscrire</h3>
+					<div>
+						@if (session('status'))
+							<div style="color: green;">
+								{{ session('status') }}
+							</div>
+						@elseif (session('error'))
+							<div style="color: red;">
+								{{ session('error') }}
+							</div>
+						@endif
+					</div>
 					<div class="form-group">
-						<input type="text" name="firstname" placeholder="Prénom" class="form-control">
-						<input type="text" name="lastname" placeholder="Nom" class="form-control">
+						<input type="text" name="prenom" placeholder="Prénom" class="form-control">
+						<input type="text" name="nom" placeholder="Nom" class="form-control">
 					</div>
 					<div class="form-wrapper">
 						<input type="text" name="email" placeholder="Adresse email" class="form-control">

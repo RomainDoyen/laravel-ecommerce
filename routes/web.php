@@ -17,3 +17,6 @@ Route::get('/contact', [PagesController::class, 'contact'])->name('front.contact
 Route::get('/client/login', [ClientsController::class, 'login'])->name('client.login');
 
 Route::get('/client/register', [ClientsController::class, 'register'])->name('client.register');
+
+// Route backend register
+Route::post('/client/register/post', [ClientsController::class, 'register_post'])->name('client.register.post');
