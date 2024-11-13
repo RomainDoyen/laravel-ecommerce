@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class ClientsController extends Controller
 {
@@ -36,5 +37,26 @@ class ClientsController extends Controller
 
         // return redirect()->route('client.login');
         return back()->with('status', 'Votre inscription a bien été effectué.');
+    }
+
+    public function login_post(Request $request) {
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+ 
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+ 
+            return redirect()->route('client.dashboard');
+        }
+ 
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
+    }
+
+    public function dashboard() {
+        return view('client.dashboard');
     }
 }

@@ -20,3 +20,9 @@ Route::get('/client/register', [ClientsController::class, 'register'])->name('cl
 
 // Route backend register
 Route::post('/client/register/post', [ClientsController::class, 'register_post'])->name('client.register.post');
+
+// Route backend login
+Route::post('/client/login/post', [ClientsController::class, 'login_post'])->name('client.login.post');
+
+// Route dashboard
+Route::get('/client/dashboard', [ClientsController::class, 'dashboard'])->name('client.dashboard');

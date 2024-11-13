@@ -15,7 +15,9 @@
 				<div class="image-holder">
 					<img src="{{ asset('assets/images/registration-form-1.jpg') }}" alt="">
 				</div>
-				<form action="">
+				<form action="{{ route('client.login.post') }}" method="POST">
+					@csrf
+					@method('POST')
 					<h3>Se connecter</h3>
 					<div class="form-wrapper">
 						<input type="text" name="email" placeholder="Adresse email" class="form-control">
