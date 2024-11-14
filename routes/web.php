@@ -26,3 +26,6 @@ Route::post('/client/login/post', [ClientsController::class, 'login_post'])->nam
 
 // Route dashboard
 Route::get('/client/dashboard', [ClientsController::class, 'dashboard'])->name('client.dashboard');
+
+// Route logout
+Route::get('/client/logout', [ClientsController::class, 'logout'])->name('client.logout');

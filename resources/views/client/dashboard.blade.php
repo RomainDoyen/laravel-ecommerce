@@ -16,6 +16,32 @@
     </section>
 
     <!-- end slider section -->
+
+    <section class="why_section layout_padding">
+      <div class="container">
+        <div class="heading_container">
+          <h2>
+            @if (Auth::check())
+              Bienvenu(e) {{ Auth::user()->prenom }} {{ Auth::user()->nom }}
+            @else
+              Veuillez vous connecter pour accéder à votre espace client.
+            @endif
+          </h2>
+          <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
+            Accusantium, obcaecati aut magni minima velit, rerum saepe consectetur placeat 
+            officiis reiciendis quas repellendus adipisci reprehenderit totam nobis odio laborum consequuntur non?
+          </p>
+          @auth
+              <a href="{{ route('client.logout') }}">Déconnexion</a>
+          @endauth
+          @guest
+              <a href="{{ route('client.login') }}">Connexion ou inscription</a>
+          @endguest
+        </div>
+      </div>
+    </section>
+
   </div>
   <!-- end hero area -->
 
