@@ -13,7 +13,7 @@
             </div>    
             <div class="inner">
 				<div class="image-holder">
-					<img src="{{ asset('assets/images/registration-form-1.jpg') }}" alt="">
+					<img src="{{ asset('assets/images/signup.png') }}" alt="">
 				</div>
 				<form action="{{ route('client.login.post') }}" method="POST">
 					@csrf

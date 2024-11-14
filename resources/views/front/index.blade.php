@@ -19,20 +19,20 @@
                   <div class="col-md-7">
                     <div class="detail-box">
                       <h1>
-                        Welcome To Our <br>
-                        Gift Shop
+                        Bienvenue dans notre <br>
+                        boutique ...
                       </h1>
                       <p>
                         Sequi perspiciatis nulla reiciendis, rem, tenetur impedit, eveniet non necessitatibus error distinctio mollitia suscipit. Nostrum fugit doloribus consequatur distinctio esse, possimus maiores aliquid repellat beatae cum, perspiciatis enim, accusantium perferendis.
                       </p>
                       <a href="">
-                        Contact Us
+                        Contactez-nous
                       </a>
                     </div>
                   </div>
                   <div class="col-md-5 ">
                     <div class="img-box">
-                      <img src="{{ asset('asset/images/slider-img.png') }}" alt="" />
+                      <img src="{{ asset('assets/images/slider-img.png') }}" alt="" />
                     </div>
                   </div>
                 </div>
@@ -44,20 +44,20 @@
                   <div class="col-md-7">
                     <div class="detail-box">
                       <h1>
-                        Welcome To Our <br>
-                        Gift Shop
+                        Bienvenue dans notre <br>
+                        boutique ...
                       </h1>
                       <p>
                         Sequi perspiciatis nulla reiciendis, rem, tenetur impedit, eveniet non necessitatibus error distinctio mollitia suscipit. Nostrum fugit doloribus consequatur distinctio esse, possimus maiores aliquid repellat beatae cum, perspiciatis enim, accusantium perferendis.
                       </p>
                       <a href="">
-                        Contact Us
+                        Contactez-nous
                       </a>
                     </div>
                   </div>
                   <div class="col-md-5 ">
                     <div class="img-box">
-                      <img src="{{ asset('asset/images/slider-img.png') }}" alt="" />
+                      <img src="{{ asset('assets/images/slider-img.png') }}" alt="" />
                     </div>
                   </div>
                 </div>
@@ -69,14 +69,14 @@
                   <div class="col-md-7">
                     <div class="detail-box">
                       <h1>
-                        Welcome To Our <br>
-                        Gift Shop
+                        Bienvenue dans notre <br>
+                        boutique ...
                       </h1>
                       <p>
                         Sequi perspiciatis nulla reiciendis, rem, tenetur impedit, eveniet non necessitatibus error distinctio mollitia suscipit. Nostrum fugit doloribus consequatur distinctio esse, possimus maiores aliquid repellat beatae cum, perspiciatis enim, accusantium perferendis.
                       </p>
                       <a href="">
-                        Contact Us
+                        Contactez-nous
                       </a>
                     </div>
                   </div>
@@ -92,12 +92,12 @@
           <div class="carousel_btn-box">
             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
               <i class="fa fa-arrow-left" aria-hidden="true"></i>
-              <span class="sr-only">Previous</span>
+              <span class="sr-only">Précédent</span>
             </a>
             <img src="images/line.png" alt="" />
             <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
               <i class="fa fa-arrow-right" aria-hidden="true"></i>
-              <span class="sr-only">Next</span>
+              <span class="sr-only">Suivant</span>
             </a>
           </div>
         </div>
@@ -130,7 +130,6 @@
                     {{ $produit->titre }}
                   </h6>
                   <h6>
-                    Prix
                     <span>
                       {{ $produit->prix }} €
                     </span>
@@ -176,8 +175,8 @@
             <div class="detail-box">
               <div class="heading_container">
                 <h2>
-                  Best Savings on <br>
-                  new arrivals
+                  Meilleures économies sur <br>
+                  les nouveaux arrivages
                 </h2>
               </div>
               <p>
@@ -185,10 +184,10 @@
               </p>
               <div class="btn-box">
                 <a href="#" class="btn1">
-                  Buy Now
+                  Acheter maintenant
                 </a>
                 <a href="#" class="btn2">
-                  See More
+                  En savoir plus
                 </a>
               </div>
             </div>

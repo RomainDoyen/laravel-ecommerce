@@ -14,7 +14,7 @@
       <div class="container px-0">
         <div class="heading_container ">
           <h2 class="">
-            Contact Us
+            CONTACTEZ-NOUS
           </h2>
         </div>
       </div>
@@ -30,20 +30,20 @@
           <div class="col-md-6 col-lg-5 px-0">
             <form action="#">
               <div>
-                <input type="text" placeholder="Name" />
+                <input type="text" placeholder="Nom" />
               </div>
               <div>
                 <input type="email" placeholder="Email" />
               </div>
               <div>
-                <input type="text" placeholder="Phone" />
+                <input type="text" placeholder="Numéro de téléphone" />
               </div>
               <div>
                 <input type="text" class="message-box" placeholder="Message" />
               </div>
               <div class="d-flex ">
                 <button>
-                  SEND
+                  Envoyer
                 </button>
               </div>
             </form>

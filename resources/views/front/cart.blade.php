@@ -41,32 +41,31 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="btn-box">
-                <a href="#">
-                  Commander
-                </a>
-              </div>
-
-              <div class="btn-box">
-                <a href="{{ route('remove_from_cart', session('cart')->id) }}">
-                  Vider le panier
-                </a>
+              <div class="btn-cart">
+                <div class="btn-trash">
+                  <a href="{{ route('remove_from_cart', session('cart')->id) }}">
+                    Vider le panier
+                  </a>
+                </div>
+                <div class="btn-command">
+                  <a href="#">
+                    Commander
+                  </a>
+                </div>
               </div>
           @else
               <p>
                 Panier vide
               </p>
           @endsession
-          
-          <p>
+          <div class="btn-command">
             @guest
               <a href="{{ route('client.login') }}">Connexion ou inscription</a>
             @endguest
-          </p>
+          </div>
         </div>
       </div>
     </section>
-
   </div>
   <!-- end hero area -->
 

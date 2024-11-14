@@ -57,7 +57,7 @@
         <div class="row">
           <div class="col-md-6 col-lg-3">
             <h6>
-              ABOUT US
+              À PROPOS DE NOUS
             </h6>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doLorem ipsum dolor sit amet, consectetur adipiscing elit, sed doLorem ipsum dolor sit amet,
@@ -69,16 +69,16 @@
                 Newsletter
               </h5>
               <form action="#">
-                <input type="email" placeholder="Enter your email">
+                <input type="email" placeholder="Entrez votre email">
                 <button>
-                  Subscribe
+                  S'ABONNER
                 </button>
               </form>
             </div>
           </div>
           <div class="col-md-6 col-lg-3">
             <h6>
-              NEED HELP
+              BESOIN D'AIDE
             </h6>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doLorem ipsum dolor sit amet, consectetur adipiscing elit, sed doLorem ipsum dolor sit amet,
@@ -86,12 +86,12 @@
           </div>
           <div class="col-md-6 col-lg-3">
             <h6>
-              CONTACT US
+              CONTACTEZ-NOUS
             </h6>
             <div class="info_link-box">
               <a href="">
                 <i class="fa fa-map-marker" aria-hidden="true"></i>
-                <span> Gb road 123 london Uk </span>
+                <span> Gb road 123 hfhff HJ </span>
               </a>
               <a href="">
                 <i class="fa fa-phone" aria-hidden="true"></i>
@@ -110,7 +110,7 @@
     <footer class=" footer_section">
       <div class="container">
         <p>
-          &copy; <span id="displayYear"></span> All Rights Reserved By
+          &copy; <span id="displayYear"></span> Tous droits réservés Par
           <a href="https://html.design/">Free Html Templates</a>
         </p>
       </div>

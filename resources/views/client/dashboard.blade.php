@@ -33,7 +33,9 @@
             officiis reiciendis quas repellendus adipisci reprehenderit totam nobis odio laborum consequuntur non?
           </p>
           @auth
-              <a href="{{ route('client.logout') }}">Déconnexion</a>
+              <div class="btn-logout">
+                <a href="{{ route('client.logout') }}">Déconnexion</a>
+              </div>
           @endauth
           @guest
               <a href="{{ route('client.login') }}">Connexion ou inscription</a>

@@ -112,7 +112,7 @@
               </div>
               <div class="detail-box">
                 <h5>
-                  Fast Delivery
+                  Livraison rapide
                 </h5>
                 <p>
                   variations of passages of Lorem Ipsum available
@@ -227,7 +227,7 @@
               </div>
               <div class="detail-box">
                 <h5>
-                  Free Shiping
+                  Expédition gratuite
                 </h5>
                 <p>
                   variations of passages of Lorem Ipsum available
@@ -248,7 +248,7 @@
               </div>
               <div class="detail-box">
                 <h5>
-                  Best Quality
+                  Meilleure qualité
                 </h5>
                 <p>
                   variations of passages of Lorem Ipsum available

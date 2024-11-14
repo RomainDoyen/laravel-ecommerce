@@ -94,6 +94,12 @@ body {
   text-align: center;
   text-transform: uppercase;
   border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+#navbarSupportedContent .navbar-nav .nav-link:hover {
+  background-color: #ffffff;
+  color: #101010;
 }
 
 #navbarSupportedContent .nav-item.active .nav-link {
@@ -741,6 +747,7 @@ a:focus {
   position: relative;
   background-color: #2d2d2d;
   color: #ffffff;
+  border-radius: 15px;
   margin: 0 45px 45px;
 }
 
@@ -833,6 +840,58 @@ a:focus {
   color: #ffffff;
 }
 
+.btn-cart {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+  gap: 10px;
+}
+
+.btn-command {
+  background-color: #f89cab;
+  border: none;
+  width: 150px;
+  padding: 10px 25px;
+  border-radius: 5px;
+  display: block;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+}
+
+.btn-command a {
+  color: #ffffff;
+}
+
+.btn-logout {
+  background-color: #c61c38;
+  border: none;
+  width: 150px;
+  padding: 10px 25px;
+  border-radius: 5px;
+  display: block;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+}
+
+.btn-logout a {
+  color: #ffffff;
+}
+
+.btn-trash {
+  background-color: #c61c38;
+  border: none;
+  width: 170px;
+  padding: 10px 25px;
+  border-radius: 5px;
+  display: block;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+}
+
+.btn-trash a {
+  color: #ffffff;
+}
+
 /* end info section */
 /* footer section*/
 .footer_section {
@@ -853,4 +912,3 @@ a:focus {
 }
 
 /* end footer section*/
-/*# sourceMappingURL=style.css.map */

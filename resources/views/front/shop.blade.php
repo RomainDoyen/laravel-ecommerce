@@ -14,7 +14,7 @@
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
-          Liste des 4 derniers produits
+          Liste des produits
         </h2>
       </div>
       <div class="row">
@@ -30,7 +30,6 @@
                     {{ $produit->titre }}
                   </h6>
                   <h6>
-                    Prix
                     <span>
                       {{ $produit->prix }} €
                     </span>
