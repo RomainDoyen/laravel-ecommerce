@@ -42,13 +42,18 @@
                   </span>
                 </div>
               </a>
+              <div class="btn-box">
+                <a href="{{ route('add_to_cart', $produit->id) }}">
+                  Ajouter au panier
+                </a>
+              </div>
           </div>
         </div>
         @endforeach
       </div>
       <div class="btn-box">
         <a href="">
-          View All Products
+          Voire tous les produits
         </a>
       </div>
     </div>
