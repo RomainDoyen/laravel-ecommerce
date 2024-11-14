@@ -13,6 +13,8 @@ Route::get('/about', [PagesController::class, 'about'])->name('front.about');
 
 Route::get('/contact', [PagesController::class, 'contact'])->name('front.contact');
 
+Route::get('/cart', [PagesController::class, 'cart'])->name('front.cart');
+
 // Page for client registration
 Route::get('/client/login', [ClientsController::class, 'login'])->name('client.login');
 

@@ -45,8 +45,8 @@
               </span>
             </a>
             @endguest
-            <a href="">
-              <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+            <a href="{{ route('front.cart') }}">
+              <i class="fa fa-shopping-bag" aria-hidden="true"></i> Mon panier
             </a>
             <form class="form-inline ">
               <button class="btn nav_search-btn" type="submit">
