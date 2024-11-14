@@ -56,7 +56,17 @@ class ClientsController extends Controller
         ])->onlyInput('email');
     }
 
-    public function dashboard() {
+    public function dashboard(Request $request) {
+        // if (Auth::user()) {
+        //     return view('client.dashboard');
+        // } else {
+        //     return redirect()->route('client.login');
+        // }
+
+        if ($request->session()->get('user')) {
+            return redirect()->route('client.login');
+        }
+    
         return view('client.dashboard');
     }
 }

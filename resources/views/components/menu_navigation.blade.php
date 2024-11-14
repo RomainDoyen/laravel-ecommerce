@@ -29,12 +29,22 @@
             </li>
           </ul>
           <div class="user_option">
-            <a href="{{ route('client.login') }}">
+            @auth
+            <a href="{{ route('client.dashboard') }}">
               <i class="fa fa-user" aria-hidden="true"></i>
+              <span>
+                Espace client
+              </span>
+            </a>
+            @endauth
+            @guest
+            <a href="{{ route('client.login') }}">
+              <i class="fa fa-user " aria-hidden="true"></i>
               <span>
                 Se connecter
               </span>
             </a>
+            @endguest
             <a href="">
               <i class="fa fa-shopping-bag" aria-hidden="true"></i>
             </a>
