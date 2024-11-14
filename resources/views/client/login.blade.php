@@ -19,6 +19,9 @@
 					@csrf
 					@method('POST')
 					<h3>Se connecter</h3>
+					@error('email')
+						<div style="color: red;">{{ $message }}</div>
+					@enderror
 					<div class="form-wrapper">
 						<input type="text" name="email" placeholder="Adresse email" class="form-control">
 						<i class="zmdi zmdi-email"></i>
