@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produit;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
     public function index()
     {
-        return view('front.index');
+        $produits = Produit::all();
+        return view('front.index', compact('produits'));
     }
 
     public function shop()
     {
-        return view('front.shop');
+        $produits = Produit::all();
+        return view('front.shop', compact('produits'));
     }
 
     public function about()
