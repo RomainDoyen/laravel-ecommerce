@@ -21,6 +21,9 @@ Route::get('/addToCart/{id}', [CartController::class, 'addToCart'])->name('add_t
 
 Route::get('/removeFromCart/{id}', [CartController::class, 'removeFromCart'])->name('remove_from_cart');
 
+Route::get('/incrementQuantity/{id}', [CartController::class, 'incrementQuantity'])->name('increment_quantity');
+Route::get('/decrementQuantity/{id}', [CartController::class, 'decrementQuantity'])->name('decrement_quantity');
+
 // Page for client registration
 Route::get('/client/login', [ClientsController::class, 'login'])->name('client.login');
 

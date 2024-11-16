@@ -31,7 +31,6 @@ class PagesController extends Controller
 
     public function cart()
     {
-        
         return view('front.cart');
     }
 }
