@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Produit;
 use Illuminate\Http\Request;
+use App\Models\Cart;
+use Illuminate\Support\Facades\Auth;
 
 class PagesController extends Controller
 {
@@ -31,6 +33,7 @@ class PagesController extends Controller
 
     public function cart()
     {
-        return view('front.cart');
+        $carts = Cart::where('user_id', Auth::id())->get();
+        return view('front.cart', compact('carts'));
     }
 }
