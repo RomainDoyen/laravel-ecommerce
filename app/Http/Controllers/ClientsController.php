@@ -44,17 +44,24 @@ class ClientsController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
- 
+
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
- 
-            return redirect()->route('client.myspace');
+
+            // Redirection en fonction du rôle
+            if (Auth::user()->role_id !== 1) {
+                return redirect()->route('client.myspace');
+            } else {
+                Auth::logout();
+                return redirect()->route('admin.login')->with('error', 'Vous n\'avez pas accès à cette section.');
+            }
         }
- 
+
         return back()->withErrors([
             'email' => 'Les informations d\'identification fournies ne correspondent pas.',
         ])->onlyInput('email');
     }
+
 
     public function myspace(Request $request) {
         // if (Auth::user()) {

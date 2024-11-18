@@ -3,6 +3,9 @@
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\AdminController;
+use App\Http\Middleware\AdminMiddleware;
+
 use Illuminate\Support\Facades\Route;
 
 // Page for front static pages
@@ -24,19 +27,30 @@ Route::get('/removeFromCart/{id}', [CartController::class, 'removeFromCart'])->n
 Route::get('/incrementQuantity/{id}', [CartController::class, 'incrementQuantity'])->name('increment_quantity');
 Route::get('/decrementQuantity/{id}', [CartController::class, 'decrementQuantity'])->name('decrement_quantity');
 
-// Page for client registration
-Route::get('/client/login', [ClientsController::class, 'login'])->name('client.login');
+// Routes pour les clients
+Route::group(['prefix' => 'client'], function () {
+  Route::get('/login', [ClientsController::class, 'login'])->name('client.login');
+  Route::get('/register', [ClientsController::class, 'register'])->name('client.register');
+  Route::post('/register/post', [ClientsController::class, 'register_post'])->name('client.register.post');
+  Route::post('/login/post', [ClientsController::class, 'login_post'])->name('client.login.post');
+  Route::get('/myspace', [ClientsController::class, 'myspace'])->name('client.myspace');
+  Route::get('/logout', [ClientsController::class, 'logout'])->name('client.logout');
+});
 
-Route::get('/client/register', [ClientsController::class, 'register'])->name('client.register');
+// Groupe middleware pour l'administration
+Route::middleware([AdminMiddleware::class])->group(function () {
+  // Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
+  // Route::post('/admin/login/post', [AdminController::class, 'login_post'])->name('admin.login.post');
+  // Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+  Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+  Route::get('/admin/add', [AdminController::class, 'add'])->name('admin.add');
+  Route::post('/admin/addProduct', [AdminController::class, 'addProduct'])->name('admin.addProduct');
+  Route::get('/admin/products/edit/{id}', [AdminController::class, 'edit'])->name('admin.edit');
+  Route::post('/admin/products/update/{id}', [AdminController::class, 'updateProduct'])->name('admin.updateProduct');
+Route::delete('/admin/products/delete/{id}', [AdminController::class, 'deleteProduct'])->name('admin.deleteProduct');
 
-// Route backend register
-Route::post('/client/register/post', [ClientsController::class, 'register_post'])->name('client.register.post');
+});
 
-// Route backend login
-Route::post('/client/login/post', [ClientsController::class, 'login_post'])->name('client.login.post');
-
-// Route myspace
-Route::get('/client/myspace', [ClientsController::class, 'myspace'])->name('client.myspace');
-
-// Route logout
-Route::get('/client/logout', [ClientsController::class, 'logout'])->name('client.logout');
+Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
+Route::post('/admin/login/post', [AdminController::class, 'login_post'])->name('admin.login.post');
+Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
