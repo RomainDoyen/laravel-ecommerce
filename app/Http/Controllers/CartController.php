@@ -93,4 +93,12 @@ class CartController extends Controller {
     
         return redirect()->route('front.cart')->with('success_cart', 'Produit retiré du panier.');
     }
+
+    public static function getCartCount() {
+        if (Auth::check()) {
+            return Cart::where('user_id', Auth::id())->sum('quantity');
+        }
+
+        return 0;
+    }
 }

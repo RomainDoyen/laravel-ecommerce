@@ -48,7 +48,7 @@ class ClientsController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
  
-            return redirect()->route('client.dashboard');
+            return redirect()->route('client.myspace');
         }
  
         return back()->withErrors([
@@ -56,7 +56,7 @@ class ClientsController extends Controller
         ])->onlyInput('email');
     }
 
-    public function dashboard(Request $request) {
+    public function myspace(Request $request) {
         // if (Auth::user()) {
         //     return view('client.dashboard');
         // } else {
@@ -67,7 +67,7 @@ class ClientsController extends Controller
             return redirect()->route('client.login');
         }
     
-        return view('client.dashboard');
+        return view('client.myspace');
     }
 
     public function logout(Request $request) {

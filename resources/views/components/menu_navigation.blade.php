@@ -30,7 +30,7 @@
           </ul>
           <div class="user_option">
             @auth
-            <a href="{{ route('client.dashboard') }}">
+            <a href="{{ route('client.myspace') }}">
               <i class="fa fa-user" aria-hidden="true"></i>
               <span>
                 Espace client
@@ -46,7 +46,16 @@
             </a>
             @endguest
             <a href="{{ route('front.cart') }}">
-              <i class="fa fa-shopping-bag" aria-hidden="true"></i> Mon panier
+              <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+              @auth
+                  @php
+                      $cartCount = \App\Http\Controllers\CartController::getCartCount();
+                  @endphp
+                  @if($cartCount > 0)
+                      <span class="cart-badge">{{ $cartCount }}</span>
+                  @endif
+              @endauth
+              Mon panier
             </a>
             <form class="form-inline ">
               <button class="btn nav_search-btn" type="submit">

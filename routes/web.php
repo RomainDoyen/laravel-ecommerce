@@ -35,8 +35,8 @@ Route::post('/client/register/post', [ClientsController::class, 'register_post']
 // Route backend login
 Route::post('/client/login/post', [ClientsController::class, 'login_post'])->name('client.login.post');
 
-// Route dashboard
-Route::get('/client/dashboard', [ClientsController::class, 'dashboard'])->name('client.dashboard');
+// Route myspace
+Route::get('/client/myspace', [ClientsController::class, 'myspace'])->name('client.myspace');
 
 // Route logout
 Route::get('/client/logout', [ClientsController::class, 'logout'])->name('client.logout');
