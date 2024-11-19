@@ -45,7 +45,8 @@
                                         <i class="fa fa-plus"></i>
                                       </a>
                                     </td>
-                                    <td><img style="width: 50px; height: 50px" src="{{ $cart->produit->image }}" alt="{{ $cart->produit->titre }}" /></td>
+                                    {{-- <td><img style="width: 50px; height: 50px" src="{{ $cart->produit->image }}" alt="{{ $cart->produit->titre }}" /></td> --}}
+                                    <td><img style="width: 50px; height: 50px" src="{{ strpos($cart->produit->image, 'products/') === 0 ? Storage::url($cart->produit->image) : asset($cart->produit->image) }}" alt="{{ $cart->produit->titre }}" /></td>
                                     <td>{{ $cart->produit->prix * $cart->quantity }}</td>
                                     <td>
                                         <a href="{{ route('remove_from_cart', $cart->produit->id) }}">

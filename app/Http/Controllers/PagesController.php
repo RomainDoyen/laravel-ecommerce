@@ -36,4 +36,10 @@ class PagesController extends Controller
         $carts = Cart::where('user_id', Auth::id())->get();
         return view('front.cart', compact('carts'));
     }
+
+    public function details($id)
+    {
+        $produit = Produit::find($id);
+        return view('front.details', compact('produit'));
+    }
 }

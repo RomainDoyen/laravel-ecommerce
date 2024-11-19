@@ -1,12 +1,17 @@
 @extends('layout.front')
 
 @section('contentPage')
+<div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <x-menu_navigation />
+    </header>
+    <!-- end header section -->
+    <!--  -->
+    <!-- shop section -->
+
 <div class="container">
     <h1>Tableau de bord Administrateur</h1>
-
-    <div class="logout">
-        <a href="{{ route('admin.logout') }}" class="btn btn-danger">Déconnexion</a>
-    </div>
 
     <!-- bouton ajouter un produit -->
     <a href="{{ route('admin.add') }}" class="btn btn-primary">Ajouter un produit</a>
@@ -36,7 +41,7 @@
                 <tr>
                     <td>{{ $produit->id }}</td>
                     <td>
-                        <img src="{{ asset('storage/' . $produit->image) }}" alt="{{ $produit->titre }}" width="50" height="50">
+                        <img src="{{ strpos($produit->image, 'products/') === 0 ? Storage::url($produit->image) : asset($produit->image) }}" alt="{{ $produit->titre }}" width="50" height="50">
                     </td>
                     <td>{{ $produit->titre }}</td>
                     <td>{{ Str::limit($produit->description, 50) }}</td>

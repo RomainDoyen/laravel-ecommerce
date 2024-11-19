@@ -1,12 +1,17 @@
 @extends('layout.front')
 
 @section('contentPage')
+<div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <x-menu_navigation />
+    </header>
+    <!-- end header section -->
+    <!--  -->
+    <!-- shop section -->
+
 <div class="container">
     <h1>Tableau de bord Administrateur</h1>
-
-    <div class="logout">
-        <a href="{{ route('admin.dashboard') }}" class="btn btn-success">Revenir au Dashboard</a>
-    </div>
 
     @if(session('success'))
         <div class="alert alert-success">

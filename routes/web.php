@@ -19,6 +19,8 @@ Route::get('/contact', [PagesController::class, 'contact'])->name('front.contact
 
 Route::get('/cart', [PagesController::class, 'cart'])->name('front.cart');
 
+Route::get('/details/{id}', [PagesController::class, 'details'])->name('front.details');
+
 // Route Panier
 Route::get('/addToCart/{id}', [CartController::class, 'addToCart'])->name('add_to_cart');
 

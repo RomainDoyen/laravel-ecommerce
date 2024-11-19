@@ -121,9 +121,9 @@
         @foreach ($produits as $produit)
           <div class="col-sm-6 col-md-4 col-lg-3">
             <div class="box">
-              <a href="">
+              <a href="{{ route('front.details', $produit->id) }}">
                 <div class="img-box">
-                  <img src="{{ $produit->image }}" alt="{{ $produit->titre }}">
+                  <img src="{{ strpos($produit->image, 'products/') === 0 ? Storage::url($produit->image) : asset($produit->image) }}" alt="{{ $produit->titre }}" />
                 </div>
                 <div class="detail-box">
                   <h6>
@@ -141,11 +141,11 @@
                   </span>
                 </div>
               </a>
-              <div class="btn-box">
+              {{-- <div class="btn-box">
                 <a href="{{ route('add_to_cart', $produit->id) }}">
                   Ajouter au panier
                 </a>
-              </div>
+              </div> --}}
           </div>
         </div>
         @endforeach
