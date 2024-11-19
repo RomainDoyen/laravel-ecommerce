@@ -1033,3 +1033,11 @@ a:focus {
     transform: scale(1.1);
   }
 }
+
+/* btn increment decrement */
+.btn-number {
+  padding: 5px 10px;
+  border-radius: 50%;
+  background-color: #cbd0d4;
+  color: #000000;
+}
