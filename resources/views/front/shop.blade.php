@@ -41,11 +41,35 @@
                   </span>
                 </div>
               </a>
-              {{-- <div class="btn-box">
-                <a href="{{ route('add_to_cart', $produit->id) }}">
-                  Ajouter au panier
-                </a>
-              </div> --}}
+              <div class="bookmark-checkbox">
+                <input
+                  type="checkbox"
+                  id="bookmark-toggle"
+                  class="bookmark-checkbox__input"
+                />
+                <label for="bookmark-toggle" class="bookmark-checkbox__label">
+                  <svg class="bookmark-checkbox__icon" viewBox="0 0 24 24">
+                    <path
+                      class="bookmark-checkbox__icon-back"
+                      d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"
+                    ></path>
+                    <path class="bookmark-checkbox__icon-check" d="M8 11l3 3 5-5"></path>
+                  </svg>
+                </label>
+              </div>
+
+              <div class="rating">
+                <input value="5" name="rate" id="star5" type="radio">
+                <label title="text" for="star5"></label>
+                <input value="4" name="rate" id="star4" type="radio">
+                <label title="text" for="star4"></label>
+                <input value="3" name="rate" id="star3" type="radio" checked="">
+                <label title="text" for="star3"></label>
+                <input value="2" name="rate" id="star2" type="radio">
+                <label title="text" for="star2"></label>
+                <input value="1" name="rate" id="star1" type="radio">
+                <label title="text" for="star1"></label>
+              </div>
           </div>
         </div>
         @endforeach
