@@ -55,4 +55,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Cart::class);
     }
+
+    /**
+     * Get the role that owns the user.
+     */
+    public function role() {
+        return $this->belongsTo(Role::class);
+    }
 }

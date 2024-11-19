@@ -10,7 +10,7 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav  ">
+          <ul class="navbar-nav">
             <li class="nav-item active">
               <a class="nav-link" href="{{ route('front.index') }}">Acceuil</a>
             </li>
@@ -30,10 +30,25 @@
           </ul>
           <div class="user_option">
             @auth
-            <a href="{{ route('client.myspace') }}">
-              <i class="fa fa-user" aria-hidden="true"></i>
+            @if(Auth::user()->role && Auth::user()->role->libelle === 'Client')
+              <a href="{{ route('client.myspace') }}">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span>
+                  Espace client
+                </span>
+              </a>
+            @elseif(Auth::user()->role && Auth::user()->role->libelle === 'Administrateur')
+              <a href="{{ route('admin.dashboard') }}">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span>
+                  Dashboard
+                </span>
+              </a>
+            @endif
+            <a href="{{ route('client.logout') }}">
+              <i class="fa fa-sign-out" aria-hidden="true"></i>
               <span>
-                Espace client
+                Se déconnecter
               </span>
             </a>
             @endauth
