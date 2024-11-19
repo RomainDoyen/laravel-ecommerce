@@ -11,16 +11,16 @@
     <!-- shop section -->
 
 <div class="container">
-    <h1>Tableau de bord Administrateur</h1>
+    <h1 class="mb-4 mt-5">Tableau de bord Administrateur</h1>
 
     @if(session('success'))
-        <div class="alert alert-success">
+        <div class="alert alert-success mb-3">
             {{ session('success') }}
         </div>
     @endif
 
     <!-- Formulaire pour ajouter un produit -->
-    <h2>Ajouter un produit</h2>
+    <h2 class="mb-4 mt-5">Ajouter un produit</h2>
     <form action="{{ route('admin.addProduct') }}" method="POST" enctype="multipart/form-data" class="mb-4">
         @csrf
         <div class="form-group">
@@ -43,7 +43,7 @@
             <label for="image">Image</label>
             <input type="file" class="form-control-file" id="image" name="image" required>
         </div>
-        <button type="submit" class="btn btn-primary">Ajouter le produit</button>
+        <button type="submit" class="btn btn-primary mb-3">Ajouter le produit</button>
     </form>
 </div>
 @endsection

@@ -11,20 +11,20 @@
     <!-- shop section -->
 
 <div class="container">
-    <h1>Tableau de bord Administrateur</h1>
+    <h1 class="mb-4 mt-5">Tableau de bord Administrateur</h1>
 
     <!-- bouton ajouter un produit -->
     <a href="{{ route('admin.add') }}" class="btn btn-primary">Ajouter un produit</a>
 
     <!-- Tableau des produits -->
-    <h2>Liste des produits</h2>
+    <h2 class="mb-3 mt-5">Liste des produits</h2>
     @if(session('success'))
-        <div class="alert alert-success">
+        <div class="alert alert-success mb-3">
             {{ session('success') }}
         </div>
     @endif
 
-    <table class="table table-striped">
+    <table class="table table-striped mb-5">
         <thead>
             <tr>
                 <th>ID</th>

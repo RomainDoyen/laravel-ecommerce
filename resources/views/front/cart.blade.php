@@ -16,7 +16,7 @@
         <div class="container">
             <div class="heading_container">
                 @if ($carts->isNotEmpty())
-                    <table>
+                    <table class="table table-striped mb-5">
                         <thead>
                             <tr>
                                 <th>#</th>

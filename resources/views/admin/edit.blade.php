@@ -11,8 +11,8 @@
     <!-- shop section -->
 
 <div class="container">
-    <h1>Tableau de bord Administrateur</h1>
-    <h2>Modifier un produit</h2>
+    <h1 class="mb-4 mt-5">Tableau de bord Administrateur</h1>
+    <h2 class="mb-3 mt-5">Modifier un produit</h2>
 
     <form action="{{ route('admin.updateProduct', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -45,7 +45,7 @@
             <label for="image">Remplacer l'image</label>
             <input type="file" class="form-control-file" id="image" name="image">
         </div>
-        <button type="submit" class="btn btn-primary">Mettre à jour le produit</button>
+        <button type="submit" class="btn btn-primary mb-5">Mettre à jour le produit</button>
     </form>
 </div>
 @endsection
