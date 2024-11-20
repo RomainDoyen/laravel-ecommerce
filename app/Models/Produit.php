@@ -9,8 +9,10 @@ class Produit extends Model
     protected $fillable = [
         'titre', 
         'description',
-        'prix', 
+        'prix',
+        'prix_promotionnel',
         'image',
-        'quantity'
+        'quantity',
+        'promotion',
     ];
 }

@@ -76,8 +76,10 @@ class AdminController extends Controller
             'titre' => 'required|string|max:255',
             'description' => 'required|string',
             'prix' => 'required|numeric',
+            'prix_promotionnel' => 'nullable|numeric|min:0|lt:prix',
             'quantity' => 'required|integer',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'promotion' => 'required|boolean',
         ]);
 
         // Sauvegarde de l'image
@@ -88,8 +90,10 @@ class AdminController extends Controller
             'titre' => $validated['titre'],
             'description' => $validated['description'],
             'prix' => $validated['prix'],
+            'prix_promotionnel' => $validated['prix_promotionnel'],
             'quantity' => $validated['quantity'],
             'image' => $imagePath,
+            'promotion' => $validated['promotion'],
         ]);
 
         return redirect()->route('admin.dashboard')->with('success', 'Produit ajouté avec succès.');
@@ -106,8 +110,10 @@ class AdminController extends Controller
             'titre' => 'required|string|max:255',
             'description' => 'required|string',
             'prix' => 'required|numeric',
+            'prix_promotionnel' => 'nullable|numeric|min:0|lt:prix',
             'quantity' => 'required|integer',
             'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'promotion' => 'required|boolean',
         ]);
 
         $product = Produit::findOrFail($id);
@@ -115,7 +121,9 @@ class AdminController extends Controller
         $product->titre = $validated['titre'];
         $product->description = $validated['description'];
         $product->prix = $validated['prix'];
+        $product->prix_promotionnel = $validated['prix_promotionnel'];
         $product->quantity = $validated['quantity'];
+        $product->promotion = $validated['promotion'];
 
         if ($request->hasFile('image')) {
             // Suppression de l'ancienne image

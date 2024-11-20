@@ -35,7 +35,12 @@ class PagesController extends Controller
     {
         $carts = Cart::where('user_id', Auth::id())->get();
         $total = $carts->sum(function ($cart) {
-            return $cart->produit->prix * $cart->quantity;
+            if ($cart->produit->promotion && $cart->produit->prix_promotionnel) {
+                return $cart->produit->prix_promotionnel * $cart->quantity;
+            } else {
+                return $cart->produit->prix * $cart->quantity;
+            }
+            // return $cart->produit->prix * $cart->quantity;
         });
         return view('front.cart', compact('carts', 'total'));
     }

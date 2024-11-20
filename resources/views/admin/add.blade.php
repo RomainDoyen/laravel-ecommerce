@@ -36,8 +36,20 @@
             <input type="number" step="0.01" class="form-control" id="prix" name="prix" required>
         </div>
         <div class="form-group">
+            <label for="prix_promotionnel">Prix promotionnel</label>
+            <input type="number" step="0.01" class="form-control" id="prix_promotionnel" name="prix_promotionnel">
+            <small>Ne renseignez ce champ que si une promotion est active.</small>
+        </div>        
+        <div class="form-group">
             <label for="quantity">Quantité</label>
             <input type="number" class="form-control" id="quantity" name="quantity" required>
+        </div>
+        <div class="form-group">
+            <label for="promotion">Promotion</label>
+            <select class="form-control" id="promotion" name="promotion">
+                <option value="0">Non</option>
+                <option value="1">Oui</option>
+            </select>
         </div>
         <div class="form-group">
             <label for="image">Image</label>

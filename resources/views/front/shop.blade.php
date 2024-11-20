@@ -20,7 +20,7 @@
       <div class="row">
         @foreach ($produits as $produit)
           <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="box">
+            <div class="box rounded">
               <a href="{{ route('front.details', $produit->id) }}">
                 <div class="img-box">
                   <img src="{{ strpos($produit->image, 'products/') === 0 ? Storage::url($produit->image) : asset($produit->image) }}" alt="{{ $produit->titre }}" />
@@ -30,10 +30,21 @@
                     {{ $produit->titre }}
                   </h6>
                   <h6>
-                    <span>
-                      {{ $produit->prix }} €
-                    </span>
-                  </h6>
+                    @if($produit->promotion && $produit->prix_promotionnel)
+                      <div class="d-flex flex-column">
+                          <span class="badge badge-secondary badge-promo-secondary">
+                              {{ number_format($produit->prix, 2) }} €
+                          </span>
+                          <span class="badge badge-success badge-promo-primary mt-2">
+                              {{ number_format($produit->prix_promotionnel, 2) }} €
+                          </span>
+                      </div>
+                    @else
+                        <span class="badge badge-secondary badge-promo-primary">
+                            {{ number_format($produit->prix, 2) }} €
+                        </span>
+                    @endif
+                </h6>                
                 </div>
                 <div class="new">
                   <span>
@@ -58,7 +69,7 @@
                 </label>
               </div>
 
-              <div class="rating">
+              <div class="rating-star">
                 <input value="5" name="rate" id="star5" type="radio">
                 <label title="text" for="star5"></label>
                 <input value="4" name="rate" id="star4" type="radio">

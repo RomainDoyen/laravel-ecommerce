@@ -32,7 +32,9 @@
                 <th>Titre</th>
                 <th>Description</th>
                 <th>Prix</th>
+                <th>Prix promotionnel</th>
                 <th>Quantité</th>
+                <th>Promotions</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -46,7 +48,9 @@
                     <td>{{ $produit->titre }}</td>
                     <td>{{ Str::limit($produit->description, 50) }}</td>
                     <td>{{ number_format($produit->prix, 2) }} €</td>
+                    <td>{{ $produit->promotion ? number_format($produit->prix_promotionnel, 2) . ' €' : 'Aucune' }}</td>
                     <td>{{ $produit->quantity }}</td>
+                    <td>{{ $produit->promotion ? 'Oui' : 'Non' }}</td>
                     <td>
                         <a href="{{ route('admin.edit', $produit->id) }}" class="btn btn-warning btn-sm">Modifier</a>
                         <form action="{{ route('admin.deleteProduct', $produit->id) }}" method="POST" style="display: inline-block;">

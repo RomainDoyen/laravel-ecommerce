@@ -16,7 +16,12 @@
           <div class="col-md-6">
               <h1>{{ $produit->titre }}</h1>
               <p class="text-muted">{{ $produit->description }}</p>
-              <h4 class="text-primary">Prix : {{ number_format($produit->prix, 2) }} €</h4>
+              @if($produit->promotion && $produit->prix_promotionnel)
+                  <h4 class="text-success">Prix promotionnel : {{ number_format($produit->prix_promotionnel, 2) }} €</h4>
+                  <h4 class="text-muted badge-promo-third">Prix de base : {{ number_format($produit->prix, 2) }} €</h4>
+              @else
+                  <h4 class="text-muted text-decoration-line-through">Prix : {{ number_format($produit->prix, 2) }} €</h4>
+              @endif
               <p>Quantité disponible : {{ $produit->quantity }}</p>
   
               <!-- Formulaire pour ajouter au panier -->

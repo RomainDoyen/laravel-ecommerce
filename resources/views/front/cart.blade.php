@@ -35,7 +35,11 @@
                                     <td>{{ $cart->produit->id }}</td>
                                     <td>{{ $cart->produit->titre }}</td>
                                     <td>{{ $cart->produit->description }}</td>
-                                    <td>{{ $cart->produit->prix }} €</td>
+                                    @if ($cart->produit->promotion && $cart->produit->prix_promotionnel)
+                                        <td class="text-success">{{ $cart->produit->prix_promotionnel }} €</td>
+                                    @else
+                                        <td>{{ $cart->produit->prix }} €</td>
+                                    @endif
                                     <td>
                                       <a href="{{ route('decrement_quantity', $cart->produit->id) }}" class="btn-number mx-3">
                                         <i class="fa fa-minus"></i>
@@ -46,7 +50,12 @@
                                       </a>
                                     </td>
                                     <td><img style="width: 50px; height: 50px" src="{{ strpos($cart->produit->image, 'products/') === 0 ? Storage::url($cart->produit->image) : asset($cart->produit->image) }}" alt="{{ $cart->produit->titre }}" /></td>
-                                    <td>{{ number_format($cart->produit->prix * $cart->quantity, 2) }} €</td>
+                                    {{-- Si il y a une promotion alors on l'applique sinon on retourne le prix de base --}}
+                                    @if ($cart->produit->promotion && $cart->produit->prix_promotionnel)
+                                        <td class="text-success">{{ number_format($cart->produit->prix_promotionnel * $cart->quantity, 2) }} €</td>
+                                    @else
+                                        <td>{{ number_format($cart->produit->prix * $cart->quantity, 2) }} €</td>
+                                    @endif
                                     <td>
                                         <a href="{{ route('remove_from_cart', $cart->produit->id) }}" class="text-danger" style="font-size: 25px;">
                                           <i class="fa fa-trash h-25"></i>

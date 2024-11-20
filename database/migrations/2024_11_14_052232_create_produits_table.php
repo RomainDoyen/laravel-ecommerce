@@ -16,9 +16,10 @@ return new class extends Migration
             $table->string('titre');
             $table->string('description')->nullable();
             $table->decimal('prix')->default(0);
+            $table->decimal('prix_promotionnel')->nullable();
             $table->string('image')->default('assets/images/no-image.jpg');
             $table->integer('quantity')->default(0);
-            $table->integer('promotion')->nullable();
+            $table->boolean('promotion')->default(false);
             $table->timestamps();
         });
     }
