@@ -213,3 +213,13 @@ button {
 
   button {
     margin-top: 60px; } }
+
+/* eye password */
+#eyeIcon, #eyeSlashIcon {
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+#eyeIcon:hover, #eyeSlashIcon:hover {
+  color: #ff4754;
+}

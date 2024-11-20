@@ -5,6 +5,7 @@
 		<title>Connexion</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="{{ asset('assets/css/form-contact.css') }}">
+		<link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet" />
 	</head>
 	<body>
 		<div class="wrapper" style="background-image: url('{{ asset('assets/images/bg-registration-form-1.jpg') }}');">
@@ -31,14 +32,17 @@
 						@enderror
 						<div class="form-wrapper">
 							<input type="text" name="email" placeholder="Adresse email" class="form-control">
-							<i class="zmdi zmdi-email"></i>
+								<i class="fa fa-envelope"></i>
 						</div>
 						<div class="form-wrapper">
-							<input type="password" name="password" placeholder="Mot de passe" class="form-control">
-							<i class="zmdi zmdi-lock"></i>
+							<input type="password" id="passwordField" name="password" placeholder="Mot de passe" class="form-control">
+							<div class="password-icon">
+								<i class="fa fa-eye" id="eyeIcon"></i>
+								<i class="fa fa-eye-slash" id="eyeSlashIcon" style="display: none;"></i>
+							</div>
 						</div>
 						<button>
-							Se connecter <i class="zmdi zmdi-arrow-right"></i>
+							Se connecter <i class="fa fa-arrow-right"></i>
 						</button>
 							<br>
 						<div class="links">
@@ -47,5 +51,6 @@
 					</form>
 				</div>
 		</div>
+		<script src="{{ asset('assets/js/custom.js') }}"></script>
 	</body>
 </html>
