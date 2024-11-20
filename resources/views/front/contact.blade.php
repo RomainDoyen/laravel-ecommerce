@@ -8,6 +8,12 @@
     </header>
     <!-- end header section -->
 
+    <section class="slider_section">
+      <div class="slider_container">
+          <h1>Contact</h1>
+      </div>
+    </section>
+
   <!-- contact section -->
 
     <section class="contact_section layout_padding">

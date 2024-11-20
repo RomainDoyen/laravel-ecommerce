@@ -10,7 +10,13 @@
     <!--  -->
     <!-- shop section -->
 
-<section class="shop_section layout_padding">
+    <section class="slider_section">
+      <div class="slider_container">
+          <h1>Boutique</h1>
+      </div>
+    </section>
+
+  <section class="shop_section layout_padding">
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
@@ -94,6 +100,5 @@
   </section>
 
   <!-- end shop section -->
-
 </div>
 @endsection

@@ -7,6 +7,11 @@
       <x-menu_navigation />
     </header>
     <!-- end header section -->
+    <section class="slider_section">
+      <div class="slider_container">
+          <h1>Qui somme-nous ?</h1>
+      </div>
+    </section>
     <!--  -->
     <section class="why_section layout_padding">
       <div class="container">
