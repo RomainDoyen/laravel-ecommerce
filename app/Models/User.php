@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Cart;
+use App\Models\Role;
+use App\Models\Review;
 
 class User extends Authenticatable
 {
@@ -61,5 +63,12 @@ class User extends Authenticatable
      */
     public function role() {
         return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * Get the reviews for the user.
+     */
+    public function reviews() {
+        return $this->belongsTo(User::class);
     }
 }

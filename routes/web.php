@@ -25,6 +25,7 @@ Route::get('/details/{id}', [PagesController::class, 'details'])->name('front.de
 
 // Route pour les avis
 Route::post('/produit/{produit}/review', [ReviewController::class, 'addReview'])->name('add_review');
+Route::delete('/review/{review}', [ReviewController::class, 'deleteReview'])->name('delete_review');
 
 
 // Route Panier

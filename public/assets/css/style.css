@@ -965,6 +965,14 @@ a:focus {
   color: #ffa723;
 }
 
+.rating-star > i.text-warning {
+  color: #ffa723;
+}
+
+.rating-star > i.text-muted {
+  color: #666;
+}
+
 /* bookmarks */
 .bookmark-checkbox {
   display: inline-block;

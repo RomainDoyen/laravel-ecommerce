@@ -79,7 +79,83 @@
           {{-- Avis --}}
           <div class="col-md-12">
             <h2 class="text-center mt-5 mb-5">Avis des utilisateurs</h2>
-            
+            <div class="container my-5">
+                <div class="row">
+                    <!-- Informations du produit -->
+                    <div class="col-md-6">
+                        <h1>{{ $produit->titre }}</h1>
+                        <p>{{ $produit->description }}</p>
+                        <h4>{{ number_format($produit->prix, 2) }} €</h4>
+                    </div>
+        
+                    <!-- Note moyenne -->
+                    <div class="col-md-6">
+                        <h4>Note moyenne</h4>
+                        <div class="rating-star">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <i class="fa fa-star {{ $produit->averageRating() >= $i ? 'text-warning' : 'text-muted' }}"></i>
+                            @endfor
+                            <span>({{ number_format($produit->averageRating(), 1) }})</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulaire pour ajouter un avis -->
+                @auth
+                <form action="{{ route('add_review', $produit->id) }}" method="POST">
+                    @csrf
+                    <label for="rating">Votre note :</label>
+                    <div class="rating-star">
+                        @for ($i = 5; $i >= 1; $i--)
+                            <input type="radio" name="rating" value="{{ $i }}" id="star{{ $i }}">
+                            <label for="star{{ $i }}"></label>
+                        @endfor
+                    </div>
+
+                    <label for="review">Votre avis :</label>
+                    <textarea name="review" id="review" class="form-control" rows="4"></textarea>
+
+                    <button type="submit" class="btn btn-primary mt-2">Soumettre</button>
+                </form>
+                @endauth
+            </div>
+            {{-- Afficher les avais --}}
+            <div class="container my-5">
+                <div class="row">
+                    @if(count($produit->reviews) === 0)
+                        <p>Aucun avis n'a été trouvé.</p>
+                    @else
+                        @foreach($produit->reviews as $review)
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="rating-star">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <i class="fa fa-star {{ $review->rating >= $i ? 'text-warning' : 'text-muted' }}"></i>
+                                            @endfor 
+
+                                            <span>({{ $review->rating }})</span>
+
+                                            <p>{{ $review->review }}</p>
+
+                                            <p class="text-muted mb-0">Par {{ $review->user->prenom ?? '' }} {{ $review->user->nom ?? 'Utilisateur inconnu' }}</p>
+                                            
+                                            @auth
+                                                @if(auth()->user()->id === $review->user_id || auth()->user()->role === 'Administrateur')
+                                                    <form action="{{ route('delete_review', $review->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                                    </form>
+                                                @endif
+                                            @endauth
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
           </div>
       </div>
     </div>

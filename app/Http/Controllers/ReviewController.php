@@ -25,4 +25,12 @@ class ReviewController extends Controller
 
         return redirect()->route('front.details', $produitId)->with('success', 'Votre avis a été soumis.');
     }
+
+    public function deleteReview($reviewId)
+    {
+        $review = Review::findOrFail($reviewId);
+        $review->delete();
+
+        return redirect()->back()->with('success', 'Votre avis a été supprimé.');
+    }
 }
