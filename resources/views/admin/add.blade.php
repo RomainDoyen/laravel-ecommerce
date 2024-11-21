@@ -50,6 +50,15 @@
                 <input type="number" class="form-control" id="quantity" name="quantity" required>
             </div>
             <div class="form-group">
+                <label for="category_id">Catégorie</label>
+                <select class="form-control" id="category_id" name="category_id" required>
+                    <option value="">Choisissez une catégorie</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="promotion">Promotion</label>
                 <select class="form-control" id="promotion" name="promotion">
                     <option value="0">Non</option>

@@ -48,6 +48,8 @@ class PagesController extends Controller
     public function details($id)
     {
         $produit = Produit::find($id);
-        return view('front.details', compact('produit'));
+        // produit similaire
+        $produits_similaires = Produit::where('category_id', $produit->category->id)->where('id', '!=', $produit->id)->distinct()->get();
+        return view('front.details', compact('produit', 'produits_similaires'));
     }
 }

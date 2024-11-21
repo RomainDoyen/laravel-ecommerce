@@ -43,8 +43,45 @@
              class="img-fluid rounded">
             </div>
           </div>
+
+          {{-- grille de produit similaire --}}
+          <div class="col-md-12">
+            <h2 class="text-center mt-5 mb-5">Produits similaires</h2>
+            @if($produits_similaires->isEmpty())
+                <p class="text-center">Aucun produit similaire n'a été trouvé.</p>
+            @else
+                <div class="row">
+                    @foreach($produits_similaires as $produit)
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <img src="{{ strpos($produit->image, 'products/') === 0 ? Storage::url($produit->image) : asset($produit->image) }}" 
+                                     class="card-img-top img-fluid img-thumbnail" 
+                                     alt="{{ $produit->titre }}" style="max-height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $produit->titre }}</h5>
+                                    <p class="card-text">{{ Str::limit($produit->description, 50) }}</p>
+                                    @if($produit->promotion && $produit->prix_promotionnel)
+                                        <h4 class="text-success">Prix promo : {{ number_format($produit->prix_promotionnel, 2) }} €</h4>
+                                        <h4 class="text-muted badge-promo-third">Prix de base : {{ number_format($produit->prix, 2) }} €</h4>
+                                    @else
+                                        <h4 class="text-muted">Prix : {{ number_format($produit->prix, 2) }} €</h4>
+                                    @endif
+                                    <a href="{{ route('front.details', $produit->id) }}" class="btn btn-primary btn-sm">Voir le produit</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+          </div>        
+          {{-- fin grille de produit similaire --}}
+
+          {{-- Avis --}}
+          <div class="col-md-12">
+            <h2 class="text-center mt-5 mb-5">Avis des utilisateurs</h2>
+
+          </div>
       </div>
     </div>
-
   </div>
   @endsection

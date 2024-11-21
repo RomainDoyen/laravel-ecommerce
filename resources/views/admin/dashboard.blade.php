@@ -40,6 +40,7 @@
                     <th>Prix promotionnel</th>
                     <th>Quantité</th>
                     <th>Promotions</th>
+                    <th>Catégorie</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -56,6 +57,7 @@
                         <td>{{ $produit->promotion ? number_format($produit->prix_promotionnel, 2) . ' €' : 'Aucune' }}</td>
                         <td>{{ $produit->quantity }}</td>
                         <td>{{ $produit->promotion ? 'Oui' : 'Non' }}</td>
+                        <td>{{ $produit->category_id }}</td>
                         <td>
                             <a href="{{ route('admin.edit', $produit->id) }}" class="btn btn-warning btn-sm">Modifier</a>
                             <form action="{{ route('admin.deleteProduct', $produit->id) }}" method="POST" style="display: inline-block;">

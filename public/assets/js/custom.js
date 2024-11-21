@@ -1,3 +1,4 @@
+// Code to show and hide password
 const eyeIcon = document.getElementById('eyeIcon');
 const eyeSlashIcon = document.getElementById('eyeSlashIcon');
 const passwordField = document.getElementById('passwordField');
@@ -18,6 +19,27 @@ eyeIcon?.addEventListener('click', showPassword);
 
 eyeSlashIcon?.addEventListener('click', hidePassword);
 
+// owl carousel
+$(document).ready(function(){
+    $(".owl-carousel").owlCarousel({
+        items: 3, // Nombre d'éléments visibles
+        loop: true, // Activer le défilement en boucle
+        margin: 10, // Espacement entre les éléments
+        nav: true, // Activer les flèches de navigation
+        navText: ["❮", "❯"], // Personnalisation des flèches
+        responsive: {
+            0: {
+                items: 1 // Sur mobile : 1 élément visible
+            },
+            768: {
+                items: 2 // Sur tablette : 2 éléments visibles
+            },
+            1024: {
+                items: 3 // Sur ordinateur : 3 éléments visibles
+            }
+        }
+    });
+});
 
 // to get current year
 function getYear() {

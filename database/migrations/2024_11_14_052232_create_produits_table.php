@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('image')->default('assets/images/no-image.jpg');
             $table->integer('quantity')->default(0);
             $table->boolean('promotion')->default(false);
+            $table->integer('category_id')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +30,13 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // Schema::table('produits', function (Blueprint $table) {
+        //     if (Schema::hasColumn('produits', 'category_id')) {
+        //         $table->dropForeign(['category_id']); // Supprime la contrainte si elle existe
+        //         $table->dropColumn('category_id');   // Supprime la colonne
+        //     }
+        // });
+
         Schema::dropIfExists('produits');
     }
 };

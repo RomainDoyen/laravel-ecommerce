@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Produit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Category;
 
 class AdminController extends Controller
 {
@@ -15,12 +16,14 @@ class AdminController extends Controller
     }
 
     public function add() {
-        return view('admin.add');
+        $categories = Category::all();
+        return view('admin.add', compact('categories'));
     }
 
     public function edit($id) {
         $product = Produit::findOrFail($id);
-        return view('admin.edit', compact('product'));
+        $categories = Category::all();
+        return view('admin.edit', compact('product', 'categories'));
     }
 
     public function login_post(Request $request) {
@@ -54,7 +57,8 @@ class AdminController extends Controller
         }
 
         $produits = Produit::all();
-        return view('admin.dashboard', compact('produits'));
+        $categories = Category::all();
+        return view('admin.dashboard', compact('produits', 'categories'));
     }
 
     public function logout(Request $request) {
@@ -80,6 +84,7 @@ class AdminController extends Controller
             'quantity' => 'required|integer',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'promotion' => 'required|boolean',
+            'category_id' => 'nullable|exists:categories,id',
         ]);
 
         // Sauvegarde de l'image
@@ -94,6 +99,7 @@ class AdminController extends Controller
             'quantity' => $validated['quantity'],
             'image' => $imagePath,
             'promotion' => $validated['promotion'],
+            'category_id' => $validated['category_id'],
         ]);
 
         return redirect()->route('admin.dashboard')->with('success', 'Produit ajouté avec succès.');
@@ -114,6 +120,7 @@ class AdminController extends Controller
             'quantity' => 'required|integer',
             'image' => 'image|mimes:jpeg,png,jpg|max:2048',
             'promotion' => 'required|boolean',
+            'category_id' => 'nullable|exists:categories,id',
         ]);
 
         $product = Produit::findOrFail($id);
@@ -124,6 +131,7 @@ class AdminController extends Controller
         $product->prix_promotionnel = $validated['prix_promotionnel'];
         $product->quantity = $validated['quantity'];
         $product->promotion = $validated['promotion'];
+        $product->category_id = $validated['category_id'];
 
         if ($request->hasFile('image')) {
             // Suppression de l'ancienne image
