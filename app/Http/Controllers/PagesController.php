@@ -48,8 +48,22 @@ class PagesController extends Controller
     public function details($id)
     {
         $produit = Produit::find($id);
-        // produit similaire
-        $produits_similaires = Produit::where('category_id', $produit->category->id)->where('id', '!=', $produit->id)->distinct()->get();
+        // Vérification si le produit existe
+        if (!$produit) {
+            // Gérer le cas où le produit n'existe pas
+            return redirect()->route('front.shop')->with('error', 'Produit non trouvé.');
+        }
+
+        // Vérification si le produit a une catégorie
+        if ($produit->category) {
+            $produits_similaires = Produit::where('category_id', $produit->category->id)
+                                        ->where('id', '!=', $produit->id)
+                                        ->distinct()
+                                        ->get();
+        } else {
+            // Si le produit n'a pas de catégorie, on ne cherche pas de produits similaires
+            $produits_similaires = [];
+        }
         return view('front.details', compact('produit', 'produits_similaires'));
     }
 }

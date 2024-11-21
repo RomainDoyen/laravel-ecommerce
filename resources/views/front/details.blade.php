@@ -47,7 +47,7 @@
           {{-- grille de produit similaire --}}
           <div class="col-md-12">
             <h2 class="text-center mt-5 mb-5">Produits similaires</h2>
-            @if($produits_similaires->isEmpty())
+            @if(count($produits_similaires) === 0)
                 <p class="text-center">Aucun produit similaire n'a été trouvé.</p>
             @else
                 <div class="row">

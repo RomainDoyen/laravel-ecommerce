@@ -5,6 +5,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Controllers\ReviewController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,11 @@ Route::get('/contact', [PagesController::class, 'contact'])->name('front.contact
 Route::get('/cart', [PagesController::class, 'cart'])->name('front.cart');
 
 Route::get('/details/{id}', [PagesController::class, 'details'])->name('front.details');
+
+
+// Route pour les avis
+Route::post('/produit/{produit}/review', [ReviewController::class, 'addReview'])->name('add_review');
+
 
 // Route Panier
 Route::get('/addToCart/{id}', [CartController::class, 'addToCart'])->name('add_to_cart');
@@ -49,8 +55,7 @@ Route::middleware([AdminMiddleware::class])->group(function () {
   Route::post('/admin/addProduct', [AdminController::class, 'addProduct'])->name('admin.addProduct');
   Route::get('/admin/products/edit/{id}', [AdminController::class, 'edit'])->name('admin.edit');
   Route::post('/admin/products/update/{id}', [AdminController::class, 'updateProduct'])->name('admin.updateProduct');
-Route::delete('/admin/products/delete/{id}', [AdminController::class, 'deleteProduct'])->name('admin.deleteProduct');
-
+  Route::delete('/admin/products/delete/{id}', [AdminController::class, 'deleteProduct'])->name('admin.deleteProduct');
 });
 
 Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');

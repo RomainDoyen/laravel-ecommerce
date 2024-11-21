@@ -23,6 +23,12 @@ return new class extends Migration
             $table->integer('category_id')->nullable();
             $table->timestamps();
         });
+
+        if (!Schema::hasColumn('produits', 'category_id')) {
+            Schema::table('produits', function (Blueprint $table) {
+                $table->integer('category_id')->nullable();
+            });
+        }
     }
 
     /**
@@ -30,13 +36,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Schema::table('produits', function (Blueprint $table) {
-        //     if (Schema::hasColumn('produits', 'category_id')) {
-        //         $table->dropForeign(['category_id']); // Supprime la contrainte si elle existe
-        //         $table->dropColumn('category_id');   // Supprime la colonne
-        //     }
-        // });
-
         Schema::dropIfExists('produits');
+
+        Schema::table('produits', function (Blueprint $table) {
+            $table->dropColumn('category_id');
+        });
     }
 };
