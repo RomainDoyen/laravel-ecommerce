@@ -1,3 +1,16 @@
+function toggleForm(reviewId) {
+    const form = document.getElementById(`edit-form-${reviewId}`);
+    const closeButton = document.getElementById(`close-form-${reviewId}`);
+
+    if (form.style.display === 'none') {
+        form.style.display = 'block';
+        closeButton.style.display = 'inline-block';
+    } else {
+        form.style.display = 'none';
+        closeButton.style.display = 'none';
+    }
+}
+
 // Code to show and hide password
 const eyeIcon = document.getElementById('eyeIcon');
 const eyeSlashIcon = document.getElementById('eyeSlashIcon');

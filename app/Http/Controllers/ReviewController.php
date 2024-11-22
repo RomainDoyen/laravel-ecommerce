@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Produit;
+use App\Models\Review;
 
 class ReviewController extends Controller
 {
@@ -32,5 +33,24 @@ class ReviewController extends Controller
         $review->delete();
 
         return redirect()->back()->with('success', 'Votre avis a été supprimé.');
+    }
+
+    public function showEditForm($reviewId)
+    {
+        $review = Review::findOrFail($reviewId);
+        return view('reviews.edit', compact('review'));
+    }
+
+    public function editReview(Request $request, $reviewId)
+    {
+        $validated = $request->validate([
+            'rating' => 'required|integer|between:1,5',
+            'review' => 'nullable|string',
+        ]);
+
+        $review = Review::findOrFail($reviewId);
+        $review->update($validated);
+
+        return redirect()->back()->with('success', 'Votre avis a été modifié.');
     }
 }

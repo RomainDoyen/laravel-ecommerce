@@ -119,7 +119,7 @@
                 </form>
                 @endauth
             </div>
-            {{-- Afficher les avais --}}
+            {{-- Afficher les avis --}}
             <div class="container my-5">
                 <div class="row">
                     @if(count($produit->reviews) === 0)
@@ -141,13 +141,73 @@
                                             <p class="text-muted mb-0">Par {{ $review->user->prenom ?? '' }} {{ $review->user->nom ?? 'Utilisateur inconnu' }}</p>
                                             
                                             @auth
-                                                @if(auth()->user()->id === $review->user_id || auth()->user()->role === 'Administrateur')
-                                                    <form action="{{ route('delete_review', $review->id) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
-                                                    </form>
-                                                @endif
+                                                <div class="d-flex p-3">
+                                                    <div class="">
+                                                        @if(auth()->user()->id === $review->user_id || auth()->user()->role === 'Administrateur')
+                                                            <form action="{{ route('delete_review', $review->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                                            </form>
+                                                        @endif
+                                                    </div>
+                                                    <div class="">
+                                                        {{-- Modifier un avis --}}
+                                                        @auth
+                                                            @if(auth()->user()->id === $review->user_id || auth()->user()->role === 'Administrateur')
+                                                                <div class="d-flex align-items-center">
+                                                                    <button 
+                                                                        class="btn btn-warning btn-sm ml-3"
+                                                                        onclick="toggleForm({{ $review->id }})"
+                                                                    >
+                                                                        Modifier
+                                                                    </button>
+                                                                    <button 
+                                                                        id="close-form-{{ $review->id }}" 
+                                                                        class="btn btn-danger btn-sm ml-2" 
+                                                                        style="display:none;"
+                                                                        onclick="toggleForm({{ $review->id }})"
+                                                                    >
+                                                                        Fermer
+                                                                    </button>
+                                                                </div>
+
+                                                                {{-- Formulaire de modification (caché par défaut) --}}
+                                                                <form 
+                                                                    id="edit-form-{{ $review->id }}" 
+                                                                    action="{{ route('edit_review', $review->id) }}" 
+                                                                    method="POST" 
+                                                                    style="display:none;"
+                                                                >
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <label for="rating-{{ $review->id }}">Votre note :</label>
+                                                                    <input 
+                                                                        type="number" 
+                                                                        name="rating" 
+                                                                        value="{{ $review->rating }}" 
+                                                                        min="1" 
+                                                                        max="5" 
+                                                                        class="form-control"
+                                                                        required
+                                                                    >
+
+                                                                    <label for="review-{{ $review->id }}">Votre avis :</label>
+                                                                    <textarea 
+                                                                        name="review" 
+                                                                        id="review-{{ $review->id }}" 
+                                                                        class="form-control" 
+                                                                        rows="4"
+                                                                        cols="15" 
+                                                                        required
+                                                                    >{{ $review->review }}</textarea>
+
+                                                                    <button type="submit" class="btn btn-primary mt-2">Mettre à jour</button>
+                                                                </form>
+                                                            @endif
+                                                        @endauth
+                                                    </div>
+                                                </div>
                                             @endauth
                                         </div>
                                     </div>
