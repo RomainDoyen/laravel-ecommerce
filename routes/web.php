@@ -44,6 +44,10 @@ Route::group(['prefix' => 'client'], function () {
   Route::post('/login/post', [ClientsController::class, 'login_post'])->name('client.login.post');
   Route::get('/myspace', [ClientsController::class, 'myspace'])->name('client.myspace');
   Route::get('/logout', [ClientsController::class, 'logout'])->name('client.logout');
+  Route::get('/forgot-password', [ClientsController::class, 'forgot_password'])->name('client.forgot-password');
+  Route::post('/forgot-password', [ClientsController::class, 'handleResetPassword'])->name('client.handleResetPassword');
+  Route::get('/reset-password/{token}', [ClientsController::class, 'resetPasswordToken'])->name('client.reset-password');
+  Route::post('/reset-password', [ClientsController::class, 'resetPassword'])->name('client.reset-password.post');
 });
 
 // Groupe middleware pour l'administration

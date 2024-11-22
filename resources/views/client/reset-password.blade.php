@@ -23,10 +23,10 @@
 					<div class="image-holder">
 						<img src="{{ asset('assets/images/signup.png') }}" alt="">
 					</div>
-					<form action="{{ route('client.login.post') }}" method="POST">
+					<form action="{{ route('client.reset-password.post') }}" method="POST">
 						@csrf
 						@method('POST')
-						<h3>Se connecter</h3>
+						<h3>Réinitialiser le mot de passe</h3>
 						@error('email')
 							<div style="color: red;">{{ $message }}</div>
 						@enderror
@@ -34,20 +34,24 @@
 							<input type="text" name="email" placeholder="Adresse email" class="form-control">
 								<i class="fa fa-envelope"></i>
 						</div>
-						<div class="form-wrapper">
-							<input type="password" id="passwordField" name="password" placeholder="Mot de passe" class="form-control">
+						{{-- <div class="form-wrapper">
+							<input type="password" id="passwordField" name="password" placeholder="Mot de passe actuel" class="form-control">
+							<div class="password-icon">
+								<i class="fa fa-eye" id="eyeIcon"></i>
+								<i class="fa fa-eye-slash" id="eyeSlashIcon" style="display: none;"></i>
+							</div>
+						</div> --}}
+            <div class="form-wrapper">
+							<input type="password" id="passwordField" name="password" placeholder="Nouveau mot de passe" class="form-control">
 							<div class="password-icon">
 								<i class="fa fa-eye" id="eyeIcon"></i>
 								<i class="fa fa-eye-slash" id="eyeSlashIcon" style="display: none;"></i>
 							</div>
 						</div>
 						<button>
-							Se connecter <i class="fa fa-arrow-right"></i>
+							Réinitialiser le mot de passe <i class="fa fa-arrow-right"></i>
 						</button>
 							<br>
-						<div class="links">
-							<a href="{{ route('client.forgot-password') }}" class="bottom-text-w3ls">Mots de passe perdu ?</a>
-						</div>
 						<div class="links">
 							<a href="{{ route('client.register') }}" class="bottom-text-w3ls">Pas de compte ? S'inscrire maintenant.</a>
 						</div>
