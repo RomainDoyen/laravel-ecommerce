@@ -72,10 +72,18 @@
               @endauth
               Mon panier
             </a>
-            <form class="form-inline ">
-              <button class="btn nav_search-btn" type="submit">
+            <form class="form-inline" onsubmit="return false;">
+              <input id="searchInput" 
+                class="form-control nav_search-input" 
+                type="search" 
+                placeholder="Rechercher" 
+                aria-label="Search"
+                style="display: none;"
+              >
+              <button id="searchIcon" class="btn nav_search-btn" type="submit">
                 <i class="fa fa-search" aria-hidden="true"></i>
               </button>
+              <div class="search-results-container"></div>
             </form>
           </div>
         </div>

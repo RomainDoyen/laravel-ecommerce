@@ -22,12 +22,13 @@ Route::get('/cart', [PagesController::class, 'cart'])->name('front.cart');
 
 Route::get('/details/{id}', [PagesController::class, 'details'])->name('front.details');
 
+// Route pour la recherche
+Route::get('/search', [PagesController::class, 'search'])->name('search');
 
 // Route pour les avis
 Route::post('/produit/{produit}/review', [ReviewController::class, 'addReview'])->name('add_review');
 Route::delete('/review/{review}', [ReviewController::class, 'deleteReview'])->name('delete_review');
 Route::put('/review/{review}/edit', [ReviewController::class, 'editReview'])->name('edit_review');
-
 
 // Route Panier
 Route::get('/addToCart/{id}', [CartController::class, 'addToCart'])->name('add_to_cart');

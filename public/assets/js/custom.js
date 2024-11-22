@@ -1,3 +1,41 @@
+document.getElementById('searchInput').addEventListener('input', function (e) {
+    const query = e.target.value;
+    const resultsContainer = document.querySelector('.search-results-container');
+
+    if (query.trim() === '') {
+        resultsContainer.innerHTML = '';
+        return;
+    }
+
+    fetch(`/search?query=${encodeURIComponent(query)}`)
+        .then(response => response.text())
+        .then(data => {
+            resultsContainer.innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Erreur lors de la recherche:', error);
+        });
+});
+
+// afficher le champ de recherche au clic sur l'icône de recherche
+const searchIcon = document.getElementById('searchIcon');
+const searchInput = document.getElementById('searchInput');
+
+function showSearchInput() {
+    searchInput.style.display = 'block';
+    searchInput.focus();
+}
+
+// cacher le champ de recherche au clic sur l'icône de recherche
+function hideSearchInput() {
+    searchInput.style.display = 'none';
+}
+
+searchIcon?.addEventListener('click', showSearchInput);
+
+searchInput?.addEventListener('blur', hideSearchInput);
+
+// Code to show and hide password
 function toggleForm(reviewId) {
     const form = document.getElementById(`edit-form-${reviewId}`);
     const closeButton = document.getElementById(`close-form-${reviewId}`);

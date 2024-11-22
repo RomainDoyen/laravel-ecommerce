@@ -1069,3 +1069,52 @@ a:focus {
   color: #fff; 
   font-size: 15px;
 }
+
+/* search */
+.search-results-container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.search-results-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.search-result-item {
+  border-bottom: 1px solid #eee;
+}
+
+.search-result-link {
+  display: block;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.search-result-link:hover {
+  background-color: #f9f9f9;
+}
+
+.result-info {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.result-description {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.no-results {
+  padding: 10px;
+  color: #999;
+  text-align: center;
+}

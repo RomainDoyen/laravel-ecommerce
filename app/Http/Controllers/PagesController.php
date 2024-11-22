@@ -66,4 +66,16 @@ class PagesController extends Controller
         }
         return view('front.details', compact('produit', 'produits_similaires'));
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $produits = Produit::where('titre', 'LIKE', "%{$query}%")
+                           ->orWhere('description', 'LIKE', "%{$query}%")
+                           ->orWhere('prix', 'LIKE', "%{$query}%")
+                           ->get();
+
+        return view('front.search', compact('produits', 'query'));
+    }
 }
