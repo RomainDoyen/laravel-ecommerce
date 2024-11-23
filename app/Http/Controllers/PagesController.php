@@ -6,6 +6,7 @@ use App\Models\Produit;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PagesController extends Controller
 {
