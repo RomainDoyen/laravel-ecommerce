@@ -8,6 +8,11 @@
     </header>
     <!-- end header section -->
     <!--  -->
+    <section class="slider_section">
+        <div class="slider_container">
+            <h1>Détail d'un produit</h1>
+        </div>
+    </section>
     <!-- shop section -->
 
     <div class="container my-5">
