@@ -22,12 +22,15 @@ const searchInput = document.getElementById('searchInput');
 const checkbox = document.querySelector('.checkbox');
 const searchContainer = document.getElementById('searchContainer');
 
-function showSearchInput() {
+function showSearchInput(e) {
+    e.stopPropagation();
     checkbox.checked = true;
     searchInput.focus();
 }
 
-function hideSearchInput() {
+function hideSearchInput(e) {
+    if (searchIcon.contains(e.target)) return;
+
     checkbox.checked = false;
 }
 
@@ -35,10 +38,8 @@ searchIcon?.addEventListener('click', showSearchInput);
 
 searchInput?.addEventListener('blur', hideSearchInput);
 
-document.addEventListener('click', function (e) {
-    if (!searchContainer.contains(e.target)) {
-        hideSearchInput();
-    }
+searchContainer?.addEventListener('click', function(e) {
+    e.stopPropagation();
 });
 
 // Code to show and hide password
