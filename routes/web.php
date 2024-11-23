@@ -6,6 +6,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\StripeController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,11 @@ Route::get('/removeFromCart/{id}', [CartController::class, 'removeFromCart'])->n
 
 Route::get('/incrementQuantity/{id}', [CartController::class, 'incrementQuantity'])->name('increment_quantity');
 Route::get('/decrementQuantity/{id}', [CartController::class, 'decrementQuantity'])->name('decrement_quantity');
+
+// Route pour le paiement
+Route::post('/create-checkout-session', [StripeController::class, 'createCheckoutSession'])->name('checkout.session');
+Route::get('/checkout-success', [StripeController::class, 'success'])->name('checkout.success');
+Route::get('/checkout-cancel', [StripeController::class, 'cancel'])->name('checkout.cancel');
 
 // Routes pour les clients
 Route::group(['prefix' => 'client'], function () {

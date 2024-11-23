@@ -71,8 +71,8 @@
                             <h4>Total du panier :</h4>
                             <p class="total-price">{{ number_format($total, 2) }} €</p>
                         </div>
-                        <div class="btn-command mt-3">
-                            <a href="#">Commander</a>
+                        <div class="mt-3">
+                            <button id="checkout-button" class="btn btn-primary">Commander</button>
                         </div>
                     </div>
                 @else
@@ -94,4 +94,46 @@
         </div>
     </section>
 </div>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    const stripe = Stripe("{{ env('STRIPE_KEY') }}");
+    
+    document.getElementById('checkout-button').addEventListener('click', async () => {
+        try {
+            const cartItems = {!! json_encode($carts->map(function($cart) {
+                return [
+                    'name' => $cart->produit->titre,
+                    'price' => $cart->produit->promotion && $cart->produit->prix_promotionnel
+                        ? $cart->produit->prix_promotionnel
+                        : $cart->produit->prix,
+                    'quantity' => $cart->quantity,
+                ];
+            })) !!};
+    
+            const response = await fetch("{{ route('checkout.session') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({ cartItems })
+            });
+    
+            if (!response.ok) {
+                throw new Error("Une erreur s'est produite lors de la création de la session de paiement.");
+            }
+    
+            const session = await response.json();
+    
+            if (session.id) {
+                stripe.redirectToCheckout({ sessionId: session.id });
+            } else {
+                alert(session.error || "Impossible de rediriger vers le paiement.");
+            }
+        } catch (error) {
+            console.error("Erreur lors de la gestion du paiement : ", error);
+            alert("Une erreur est survenue. Veuillez réessayer.");
+        }
+    });
+</script>
 @endsection
