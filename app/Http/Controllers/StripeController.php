@@ -21,6 +21,8 @@ class StripeController extends Controller
                     'currency' => 'eur',
                     'product_data' => [
                         'name' => $item['name'],
+                        'description' => $item['description'],
+                        'images' => [$item['image']],
                     ],
                     'unit_amount' => $item['price'] * 100,
                 ],

@@ -107,6 +107,10 @@
                         ? $cart->produit->prix_promotionnel
                         : $cart->produit->prix,
                     'quantity' => $cart->quantity,
+                    'description' => $cart->produit->description,
+                    'image' => strpos($cart->produit->image, 'products/') === 0
+                    ? url(Storage::url($cart->produit->image))
+                    : url(asset($cart->produit->image)),
                 ];
             })) !!};
     
