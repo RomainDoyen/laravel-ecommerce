@@ -17,23 +17,29 @@ document.getElementById('searchInput').addEventListener('input', function (e) {
         });
 });
 
-// afficher le champ de recherche au clic sur l'icône de recherche
 const searchIcon = document.getElementById('searchIcon');
 const searchInput = document.getElementById('searchInput');
+const checkbox = document.querySelector('.checkbox');
+const searchContainer = document.getElementById('searchContainer');
 
 function showSearchInput() {
-    searchInput.style.display = 'block';
+    checkbox.checked = true;
     searchInput.focus();
 }
 
-// cacher le champ de recherche au clic sur l'icône de recherche
 function hideSearchInput() {
-    searchInput.style.display = 'none';
+    checkbox.checked = false;
 }
 
 searchIcon?.addEventListener('click', showSearchInput);
 
 searchInput?.addEventListener('blur', hideSearchInput);
+
+document.addEventListener('click', function (e) {
+    if (!searchContainer.contains(e.target)) {
+        hideSearchInput();
+    }
+});
 
 // Code to show and hide password
 function toggleForm(reviewId) {

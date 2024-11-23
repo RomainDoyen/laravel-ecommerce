@@ -72,19 +72,18 @@
               @endauth
               Mon panier
             </a>
-            <form class="form-inline" onsubmit="return false;">
-              <input id="searchInput" 
-                class="form-control nav_search-input" 
-                type="search" 
-                placeholder="Rechercher" 
-                aria-label="Search"
-                style="display: none;"
-              >
-              <button id="searchIcon" class="btn nav_search-btn" type="submit">
-                <i class="fa fa-search" aria-hidden="true"></i>
-              </button>
+            
+            <div class="container-search-bar" id="searchContainer">
+              <input checked="" class="checkbox" type="checkbox"> 
+              <div class="mainbox">
+                  <div id="searchIcon" class="iconContainer">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </div>
+                <input id="searchInput" class="search_input" placeholder="Rechercher..." type="text">
+              </div>
               <div class="search-results-container"></div>
-            </form>
+            </div>
+            
           </div>
         </div>
       </nav>
