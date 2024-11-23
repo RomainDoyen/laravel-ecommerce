@@ -36,6 +36,7 @@
               <div class="btn-logout">
                 <a href="{{ route('client.logout') }}">Déconnexion</a>
               </div>
+              <a href="{{ route('client.orders') }}">Voir mes commandes</a>
           @endauth
           @guest
               <a href="{{ route('client.login') }}">Connexion ou inscription</a>

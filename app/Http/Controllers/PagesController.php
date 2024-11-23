@@ -33,35 +33,48 @@ class PagesController extends Controller
 
     public function cart()
     {
-        $carts = Cart::where('user_id', Auth::id())->get();
+        // $carts = Cart::where('user_id', Auth::id())->get();
+        $carts = Cart::with('produit')->where('user_id', Auth::id())->get();
+
         $total = $carts->sum(function ($cart) {
-            if ($cart->produit->promotion && $cart->produit->prix_promotionnel) {
-                return $cart->produit->prix_promotionnel * $cart->quantity;
-            } else {
-                return $cart->produit->prix * $cart->quantity;
-            }
-            // return $cart->produit->prix * $cart->quantity;
+            $prix = $cart->produit->promotion && $cart->produit->prix_promotionnel
+                ? $cart->produit->prix_promotionnel
+                : $cart->produit->prix;
+        
+            return $prix > 0 ? $prix * $cart->quantity : 0;
         });
-        return view('front.cart', compact('carts', 'total'));
+
+        $cartItems = $carts->map(function ($cart) {
+            return [
+                'name' => $cart->produit->titre,
+                'price' => $cart->produit->promotion && $cart->produit->prix_promotionnel
+                    ? $cart->produit->prix_promotionnel
+                    : $cart->produit->prix,
+                'quantity' => $cart->quantity,
+                'description' => $cart->produit->description,
+                'image' => strpos($cart->produit->image, 'products/') === 0
+                    ? url(Storage::url($cart->produit->image))
+                    : url(asset($cart->produit->image)),
+            ];
+        })->toArray();
+
+        return view('front.cart', compact('carts', 'total', 'cartItems'));
     }
 
     public function details($id)
     {
         $produit = Produit::find($id);
-        // Vérification si le produit existe
+
         if (!$produit) {
-            // Gérer le cas où le produit n'existe pas
             return redirect()->route('front.shop')->with('error', 'Produit non trouvé.');
         }
 
-        // Vérification si le produit a une catégorie
         if ($produit->category) {
             $produits_similaires = Produit::where('category_id', $produit->category->id)
                                         ->where('id', '!=', $produit->id)
                                         ->distinct()
                                         ->get();
         } else {
-            // Si le produit n'a pas de catégorie, on ne cherche pas de produits similaires
             $produits_similaires = [];
         }
         return view('front.details', compact('produit', 'produits_similaires'));

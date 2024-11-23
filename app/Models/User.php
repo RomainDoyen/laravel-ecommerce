@@ -10,6 +10,7 @@ use Illuminate\Contracts\Auth\CanResetPassword;
 use App\Models\Cart;
 use App\Models\Role;
 use App\Models\Review;
+use App\Models\Order;
 
 class User extends Authenticatable
 {
@@ -71,5 +72,13 @@ class User extends Authenticatable
      */
     public function reviews() {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the orders for the user.
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }

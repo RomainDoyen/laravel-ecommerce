@@ -96,31 +96,21 @@
 </div>
 <script src="https://js.stripe.com/v3/"></script>
 <script>
+    const cartItems = @json($cartItems);
+
     const stripe = Stripe("{{ env('STRIPE_KEY') }}");
-    
+
     document.getElementById('checkout-button').addEventListener('click', async () => {
         try {
-            const cartItems = {!! json_encode($carts->map(function($cart) {
-                return [
-                    'name' => $cart->produit->titre,
-                    'price' => $cart->produit->promotion && $cart->produit->prix_promotionnel
-                        ? $cart->produit->prix_promotionnel
-                        : $cart->produit->prix,
-                    'quantity' => $cart->quantity,
-                    'description' => $cart->produit->description,
-                    'image' => strpos($cart->produit->image, 'products/') === 0
-                    ? url(Storage::url($cart->produit->image))
-                    : url(asset($cart->produit->image)),
-                ];
-            })) !!};
-    
             const response = await fetch("{{ route('checkout.session') }}", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "X-CSRF-TOKEN": "{{ csrf_token() }}"
                 },
-                body: JSON.stringify({ cartItems })
+                body: JSON.stringify({ 
+                    cartItems: cartItems,
+                })
             });
     
             if (!response.ok) {

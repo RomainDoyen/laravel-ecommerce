@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\OrderController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,10 @@ Route::get('/removeFromCart/{id}', [CartController::class, 'removeFromCart'])->n
 
 Route::get('/incrementQuantity/{id}', [CartController::class, 'incrementQuantity'])->name('increment_quantity');
 Route::get('/decrementQuantity/{id}', [CartController::class, 'decrementQuantity'])->name('decrement_quantity');
+
+// Route pour les commandes
+Route::get('/espace-client/commandes', [OrderController::class, 'index'])->name('client.orders');
+Route::post('/store-order', [OrderController::class, 'storeOrder'])->name('store_order');
 
 // Route pour le paiement
 Route::post('/create-checkout-session', [StripeController::class, 'createCheckoutSession'])->name('checkout.session');

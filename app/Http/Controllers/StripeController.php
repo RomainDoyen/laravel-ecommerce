@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
+use App\Models\Order;
 
 class StripeController extends Controller
 {
@@ -15,16 +16,22 @@ class StripeController extends Controller
         $lineItems = [];
         $cartItems = $request->input('cartItems');
 
+        session(['cartItems' => $cartItems]);
+
         foreach ($cartItems as $item) {
+            if (!isset($item['name'], $item['price'], $item['quantity'])) {
+                return response()->json(['error' => 'Données du produit incorrectes.'], 400);
+            }
+
             $lineItems[] = [
                 'price_data' => [
                     'currency' => 'eur',
                     'product_data' => [
                         'name' => $item['name'],
-                        'description' => $item['description'],
-                        'images' => [$item['image']],
+                        'description' => $item['description'] ?? 'Aucune description',
+                        'images' => [$item['image'] ?? 'https://via.placeholder.com/150'],
                     ],
-                    'unit_amount' => $item['price'] * 100,
+                    'unit_amount' => (int)($item['price'] * 100),
                 ],
                 'quantity' => $item['quantity'],
             ];
@@ -45,9 +52,28 @@ class StripeController extends Controller
         }
     }
 
-    public function success()
+    public function success(Request $request)
     {
-        return view('checkout.success');
+        $user = auth()->user();
+
+        $cartItems = session('cartItems', []);
+
+        if (empty($cartItems)) {
+            return redirect()->route('front.cart')->with('error', 'Le panier est vide.');
+        }        
+
+        $total = collect($cartItems)->sum(fn($item) => $item['price'] * $item['quantity']);
+
+        $order = Order::create([
+            'user_id' => $user->id,
+            'status' => 'paid',
+            'total' => $total,
+            'items' => json_encode($cartItems),
+        ]);
+
+        session()->forget('cartItems');
+
+        return view('checkout.success')->with('success', 'Commande enregistrée avec succès.');
     }
 
     public function cancel()
