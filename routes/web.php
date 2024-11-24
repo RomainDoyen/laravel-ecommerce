@@ -8,6 +8,7 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\DeliveryInfoController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +49,11 @@ Route::post('/store-order', [OrderController::class, 'storeOrder'])->name('store
 Route::post('/create-checkout-session', [StripeController::class, 'createCheckoutSession'])->name('checkout.session');
 Route::get('/checkout-success', [StripeController::class, 'success'])->name('checkout.success');
 Route::get('/checkout-cancel', [StripeController::class, 'cancel'])->name('checkout.cancel');
+
+// Route de livraison
+Route::get('/delivery-info', [DeliveryInfoController::class, 'create'])->name('delivery.create');
+Route::post('/delivery-info', [DeliveryInfoController::class, 'store'])->name('delivery.store');
+
 
 // Routes pour les clients
 Route::group(['prefix' => 'client'], function () {

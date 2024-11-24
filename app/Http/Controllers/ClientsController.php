@@ -119,11 +119,14 @@ class ClientsController extends Controller
         //     return redirect()->route('client.login');
         // }
 
+        $user = auth()->user();
+        $deliveryInfo = $user->deliveryInfo;
+
         if ($request->session()->get('user')) {
             return redirect()->route('client.login');
         }
     
-        return view('client.myspace');
+        return view('client.myspace', compact('user', 'deliveryInfo'));
     }
 
     public function logout(Request $request) {

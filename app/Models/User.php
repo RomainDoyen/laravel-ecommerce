@@ -81,4 +81,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+
+    /** 
+     * Get delivery info for the user.
+     */
+    public function deliveryInfo()
+    {
+        return $this->hasOne(DeliveryInfo::class);
+    }
 }
