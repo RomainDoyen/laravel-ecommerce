@@ -58,7 +58,7 @@
                                 <p><strong>Ville :</strong> {{ $deliveryInfo->city }}</p>
                                 <p><strong>Téléphone :</strong> {{ $deliveryInfo->phone }}</p>
                                 <p><strong>Pays :</strong> {{ $deliveryInfo->country }}</p>
-                                <a href="{{ route('delivery.create') }}" class="btn btn-primary">Modifier les informations de livraison</a>
+                                <a href="{{ route('delivery.edit') }}" class="btn btn-primary">Modifier les informations de livraison</a>
                             @else
                                 <p>Vous n'avez pas encore ajouté d'informations de livraison.</p>
                                 <a href="{{ route('delivery.create') }}" class="btn btn-primary">Ajouter</a>

@@ -53,7 +53,8 @@ Route::get('/checkout-cancel', [StripeController::class, 'cancel'])->name('check
 // Route de livraison
 Route::get('/delivery-info', [DeliveryInfoController::class, 'create'])->name('delivery.create');
 Route::post('/delivery-info', [DeliveryInfoController::class, 'store'])->name('delivery.store');
-
+Route::get('/delivery-info/edit', [DeliveryInfoController::class, 'edit'])->name('delivery.edit');
+Route::post('/delivery-info/update', [DeliveryInfoController::class, 'update'])->name('delivery.update');
 
 // Routes pour les clients
 Route::group(['prefix' => 'client'], function () {

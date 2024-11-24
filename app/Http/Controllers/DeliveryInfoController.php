@@ -31,5 +31,28 @@ class DeliveryInfoController extends Controller
         return redirect()->route('delivery.create')->with('success', 'Informations de livraison enregistrées avec succès.');
     }
 
+    public function edit()
+    {
+        $deliveryInfo = DeliveryInfo::where('user_id', Auth::id())->first();
 
+        return view('delivery.edit', compact('deliveryInfo'));
+    }
+
+    public function update(Request $request)
+    {
+        $request->validate([
+            'address' => 'required|string|max:255',
+            'postal_code' => 'required|string|max:10',
+            'city' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'country' => 'required|string|max:255',
+        ]);
+
+        DeliveryInfo::updateOrCreate(
+            ['user_id' => Auth::id()],
+            $request->only('address', 'postal_code', 'city', 'phone', 'country')
+        );
+
+        return redirect()->route('client.myspace')->with('success', 'Informations de livraison mises à jour avec succès.');
+    }
 }
