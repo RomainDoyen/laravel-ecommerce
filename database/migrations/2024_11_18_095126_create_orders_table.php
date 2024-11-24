@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('status')->default('pending');
             $table->decimal('total', 10, 2);
             $table->json('items');
+            $table->string('order_number')->unique();
+            $table->string('payment_method')->nullable();
             $table->timestamps();
         });
     }

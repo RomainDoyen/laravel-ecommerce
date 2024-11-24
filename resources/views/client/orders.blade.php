@@ -22,6 +22,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Date</th>
+                                <th>Numéro de commande</th>
                                 <th>Statut</th>
                                 <th>Total</th>
                                 <th>Produits</th>
@@ -32,6 +33,7 @@
                                 <tr>
                                     <td>{{ $order->id }}</td>
                                     <td>{{ $order->created_at->format('d/m/Y') }}</td>
+                                    <td><strong>{{ $order->order_number }}</strong></td>
                                     <td>{{ ucfirst($order->status) }}</td>
                                     <td>{{ number_format($order->total, 2) }} €</td>
                                     <td>

@@ -29,6 +29,7 @@ class OrderController extends Controller
             'status' => 'paid',
             'total' => $total,
             'items' => json_encode($cartItems),
+            'order_number' => strtoupper(Str::random(10)),
         ]);
 
         // Vider le panier après paiement 

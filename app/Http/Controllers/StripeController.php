@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use App\Models\Order;
+use Illuminate\Support\Str;
 
 class StripeController extends Controller
 {
@@ -64,16 +65,22 @@ class StripeController extends Controller
 
         $total = collect($cartItems)->sum(fn($item) => $item['price'] * $item['quantity']);
 
+        $orderNumber = strtoupper(Str::random(10));
+
         $order = Order::create([
             'user_id' => $user->id,
             'status' => 'paid',
             'total' => $total,
             'items' => json_encode($cartItems),
+            'order_number' => $orderNumber,
         ]);
 
         session()->forget('cartItems');
 
-        return view('checkout.success')->with('success', 'Commande enregistrée avec succès.');
+        return view('checkout.success')->with('success', [
+            'success' => 'Commande enregistrée avec succès.',
+            'orderNumber' => $orderNumber,
+        ]);
     }
 
     public function cancel()
