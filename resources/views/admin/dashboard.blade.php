@@ -74,5 +74,70 @@
                 @endforelse
             </tbody>
         </table>
+
+
     </div>
+
+    <div class="container">
+
+        <!-- Tableau des produits -->
+        <h2 class="mb-3 mt-5">Liste des commandes</h2>
+        @if(session('success'))
+            <div class="alert alert-success mb-3">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <table class="table table-striped mb-5">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Nom et Prénom</th>
+                    <th>Infos de livraison</th>
+                    <th>Numéro de commande</th>
+                    <th>Statut</th>
+                    <th>Total</th>
+                    <th>Produits</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($orders as $order)
+                    <tr>
+                        <td>{{ $order->id }}</td>
+                        <td>{{ $order->created_at->format('d/m/Y') }}</td>
+                        <td>{{ $order->user->nom }} {{ $order->user->prenom }}</td>
+                        <td>
+                            @if($order->deliveryInfo)
+                                <address>
+                                    {{ $order->deliveryInfo->address }}<br>
+                                    {{ $order->deliveryInfo->postal_code }} {{ $order->deliveryInfo->city }}<br>
+                                    {{ $order->deliveryInfo->country }}
+                                </address>
+                                <p>Numéro de téléphone : {{ $order->deliveryInfo->phone }}</p>
+                                <p>Email : {{ $order->user->email }}</p>
+                            @else
+                                <span>Pas d'informations de livraison</span>
+                            @endif
+                        </td>
+                        <td><strong>{{ $order->order_number }}</strong></td>
+                        <td>{{ ucfirst($order->status) }}</td>
+                        <td>{{ number_format($order->total, 2) }} €</td>
+                        <td>
+                            <ul>
+                                @foreach (json_decode($order->items, true) as $item)
+                                    <li>{{ $item['name'] }} (x{{ $item['quantity'] }})</li>
+                                @endforeach
+                            </ul>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="7" class="text-center">Aucune commande disponible</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
 @endsection

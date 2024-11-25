@@ -34,6 +34,11 @@ class PagesController extends Controller
 
     public function cart()
     {
+        $user = auth()->user();
+
+        if (!$user->deliveryInfo) {
+            return redirect()->route('delivery.create')->with('error', 'Veuillez ajouter vos informations de livraison avant de passer à la commande.');
+        }
         // $carts = Cart::where('user_id', Auth::id())->get();
         $carts = Cart::with('produit')->where('user_id', Auth::id())->get();
 

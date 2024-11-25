@@ -87,6 +87,6 @@ class User extends Authenticatable
      */
     public function deliveryInfo()
     {
-        return $this->hasOne(DeliveryInfo::class);
+        return $this->hasOne(DeliveryInfo::class, 'user_id');
     }
 }

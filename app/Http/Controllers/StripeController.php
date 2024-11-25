@@ -12,6 +12,15 @@ class StripeController extends Controller
 {
     public function createCheckoutSession(Request $request)
     {
+        $user = auth()->user();
+
+        // Vérifiez si l'utilisateur a renseigné ses informations de livraison
+        // $deliveryInfo = $user->deliveryInfo;
+
+        // if (!$deliveryInfo) {
+        //     return redirect()->route('delivery.create')->with('error', 'Veuillez ajouter vos informations de livraison avant de passer à la caisse.');
+        // }
+
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
         $lineItems = [];
@@ -57,6 +66,8 @@ class StripeController extends Controller
     {
         $user = auth()->user();
 
+        $deliveryInfo = $user->deliveryInfo;
+
         $cartItems = session('cartItems', []);
 
         if (empty($cartItems)) {
@@ -73,6 +84,7 @@ class StripeController extends Controller
             'total' => $total,
             'items' => json_encode($cartItems),
             'order_number' => $orderNumber,
+            'delivery_info_id' => $deliveryInfo->id,
         ]);
 
         session()->forget('cartItems');

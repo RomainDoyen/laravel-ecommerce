@@ -24,13 +24,22 @@ class OrderController extends Controller
         $cartItems = $request->input('cartItems');
         $total = collect($cartItems)->sum(fn($item) => $item['price'] * $item['quantity']);
 
+        $deliveryInfo = $user->deliveryInfo;
+
+        if (!$deliveryInfo) {
+            return redirect()->route('delivery.create')->with('error', 'Veuillez ajouter vos informations de livraison avant de passer une commande.');
+        }
+
         $order = Order::create([
             'user_id' => $user->id,
+            'delivery_info_id' => $deliveryInfo->id,
             'status' => 'paid',
             'total' => $total,
             'items' => json_encode($cartItems),
             'order_number' => strtoupper(Str::random(10)),
         ]);
+
+        session(['order_id' => $order->id]);
 
         // Vider le panier après paiement 
         // ...

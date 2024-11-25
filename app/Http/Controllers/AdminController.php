@@ -7,6 +7,8 @@ use App\Models\Produit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
+use App\Models\Order;
+use App\Models\DeliveryInfo;
 
 class AdminController extends Controller
 {
@@ -58,7 +60,9 @@ class AdminController extends Controller
 
         $produits = Produit::all();
         $categories = Category::all();
-        return view('admin.dashboard', compact('produits', 'categories'));
+        $orders = Order::with('user')->get();
+        // $deliveryInfos = DeliveryInfo::with('deliveryInfo')->get();
+        return view('admin.dashboard', compact('produits', 'categories', 'orders'));
     }
 
     public function logout(Request $request) {

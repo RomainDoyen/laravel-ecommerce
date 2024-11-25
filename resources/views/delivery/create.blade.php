@@ -20,6 +20,10 @@
 
       @if(session('success'))
           <div class="alert alert-success">{{ session('success') }}</div>
+      @elseif(session('error'))
+          <div class="alert alert-danger">{{ session('error') }}</div>
+      @else 
+          <div class="alert alert-info">Veuillez renseigner les informations de livraison</div>
       @endif
 
       <form method="POST" action="{{ route('delivery.update') }}">
