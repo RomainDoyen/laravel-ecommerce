@@ -105,13 +105,16 @@
                 @forelse($orders as $order)
                     <tr>
                         <td>{{ $order->id }}</td>
-                        <td>{{ $order->created_at->format('d/m/Y') }}</td>
+                        <td>
+                            Le {{ $order->created_at->format('d/m/Y') }}<br> 
+                            à {{ $order->created_at->format('H:i') }}
+                        </td>
                         <td>{{ $order->user->nom }} {{ $order->user->prenom }}</td>
                         <td>
                             @if($order->deliveryInfo)
                                 <address>
-                                    {{ $order->deliveryInfo->address }}<br>
-                                    {{ $order->deliveryInfo->postal_code }} {{ $order->deliveryInfo->city }}<br>
+                                    {{ $order->deliveryInfo->address }}, <br>
+                                    {{ $order->deliveryInfo->postal_code }}, {{ $order->deliveryInfo->city }},<br>
                                     {{ $order->deliveryInfo->country }}
                                 </address>
                                 <p>Numéro de téléphone : {{ $order->deliveryInfo->phone }}</p>
