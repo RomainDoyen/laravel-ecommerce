@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('image')->default('assets/images/no-image.jpg');
             $table->integer('quantity')->default(0);
             $table->boolean('promotion')->default(false);
-            $table->integer('category_id')->nullable();
+            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('set null');
             $table->timestamps();
         });
 
