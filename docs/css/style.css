@@ -150,7 +150,6 @@ pre code {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: linear-gradient(135deg, var(--accent), #8b5cf6);
   display: grid;
   place-items: center;
   font-weight: 700;

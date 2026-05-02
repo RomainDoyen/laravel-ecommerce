@@ -19,10 +19,12 @@
   <div class="doc-layout">
     <aside class="sidebar" id="sidebar" aria-label="Navigation">
       <div class="brand">
-        <div class="brand-icon">LE</div>
+        <div class="brand-icon">
+          <img src="../public/assets/images/favicon.png" alt="Logo Ecommerce" width="40" height="40">
+        </div>
         <div>
           <h1>Laravel E-commerce</h1>
-          <span>Documentation v1.0</span>
+          <span>Documentation v1.1</span>
         </div>
       </div>
 
@@ -52,6 +54,7 @@
         <li><a href="#client">Espace client</a></li>
         <li><a href="#admin">Administration</a></li>
         <li><a href="#stripe">Paiement Stripe</a></li>
+        <li><a href="#ui">Interface &amp; thème</a></li>
         <li><a href="#security">Sécurité & rôles</a></li>
         <li><a href="#structure">Structure des dossiers</a></li>
       </ul>
@@ -68,7 +71,8 @@
         <p>
           Boutique en ligne avec catalogue, panier utilisateur, avis produits, commandes,
           informations de livraison et paiement via Stripe Checkout. Cette page décrit l’installation,
-          la configuration et l’architecture du dépôt <code>laravel-ecommerce</code>.
+          la configuration et l’architecture du dépôt <code>laravel-ecommerce</code> (voir aussi le
+          <code>README.md</code> à la racine).
         </p>
       </header>
 
@@ -97,7 +101,7 @@
               </tr>
               <tr>
                 <td>Front</td>
-                <td>Blade, Tailwind (Vite), assets dans <code>public/assets</code></td>
+                <td>Blade, Bootstrap + thème template, feuille <code>public/assets/css/app-ui.css</code> (cohérence UI) ; Vite / Tailwind disponibles pour la chaîne de build</td>
               </tr>
               <tr>
                 <td>Paiement</td>
@@ -141,6 +145,11 @@ npm run build   # ou npm run dev en développement</code></pre>
 
         <div class="alert alert-info">
           <strong>Santé de l’application :</strong> Laravel 11 expose une route <code>GET /up</code> pour les sondes de disponibilité.
+        </div>
+        <div class="alert alert-warn">
+          <strong>Serveur de développement :</strong> avec <code>php artisan serve</code>, si vous voyez une erreur du type
+          <code>Undefined array key &quot;pool&quot;</code> (commande <code>ServeCommand</code>), définissez
+          <code>PHP_CLI_SERVER_WORKERS=1</code> dans <code>.env</code> (voir <code>.env.example</code> commenté).
         </div>
       </section>
 
@@ -188,9 +197,17 @@ npm run build   # ou npm run dev en développement</code></pre>
                 <td><code>MAIL_*</code></td>
                 <td>Pour les e-mails (réinitialisation de mot de passe, etc.)</td>
               </tr>
+              <tr>
+                <td><code>PHP_CLI_SERVER_WORKERS</code></td>
+                <td>Optionnel — <code>1</code> recommandé pour éviter des erreurs avec le serveur PHP intégré multi-workers</td>
+              </tr>
             </tbody>
           </table>
         </div>
+        <p>
+          Les clés Stripe sont lues via <code>config/services.php</code> (<code>stripe.key</code>, <code>stripe.secret</code>),
+          alimentées par <code>STRIPE_KEY</code> et <code>STRIPE_SECRET</code> dans <code>.env</code>.
+        </p>
       </section>
 
       <section class="doc-section" id="database">
@@ -235,7 +252,7 @@ npm run build   # ou npm run dev en développement</code></pre>
               </tr>
               <tr>
                 <td><code>orders</code></td>
-                <td>Commandes (<code>total</code>, <code>status</code>, <code>items</code> JSON, <code>order_number</code>, lien livraison)</td>
+                <td>Commandes (<code>total</code>, <code>status</code>, <code>items</code> JSON, <code>order_number</code>, <code>stripe_checkout_session_id</code> unique pour idempotence après paiement, lien livraison)</td>
               </tr>
               <tr>
                 <td><code>sessions</code>, <code>cache</code>, <code>jobs</code></td>
@@ -297,7 +314,8 @@ npm run build   # ou npm run dev en développement</code></pre>
       <section class="doc-section" id="seeders">
         <h2>Seeders</h2>
         <p>
-          Le <code>DatabaseSeeder</code> appelle <strong>RoleSeeder</strong> puis crée deux utilisateurs de démonstration via la factory.
+          Le <code>DatabaseSeeder</code> appelle <strong>RoleSeeder</strong> (rôles créés en idempotent avec <code>firstOrCreate</code>)
+          puis crée deux utilisateurs de démonstration via la factory.
           Les seeders <code>CategoriesSeeder</code>, <code>ProduitSeeder</code> et <code>ReviewSeeder</code> existent dans le projet mais ne sont
           <strong>pas</strong> invoqués par défaut — ajoutez-les dans <code>DatabaseSeeder</code> ou lancez-les à la main.
         </p>
@@ -412,7 +430,7 @@ php artisan db:seed --class=RoleSeeder</code></pre>
             <tbody>
               <tr>
                 <td><span class="route-method method-get">GET</span></td>
-                <td><code>/addToCart/{id}</code></td>
+                <td><code>/addToCart/{id}</code> (paramètre optionnel <code>?quantity=</code>)</td>
                 <td><code>add_to_cart</code></td>
               </tr>
               <tr>
@@ -527,7 +545,7 @@ php artisan db:seed --class=RoleSeeder</code></pre>
               </tr>
               <tr>
                 <td><span class="route-method method-get">GET</span></td>
-                <td><code>/checkout-success</code></td>
+                <td><code>/checkout-success?session_id=…</code> (Stripe renvoie l’ID de session)</td>
                 <td><code>checkout.success</code></td>
               </tr>
               <tr>
@@ -554,7 +572,7 @@ php artisan db:seed --class=RoleSeeder</code></pre>
         <ul style="margin:0;padding-left:1.25rem;color:var(--text-muted)">
           <li><strong>Inscription</strong> — <code>POST /client/register/post</code> : affectation du rôle « Client » via le modèle <code>Role</code>.</li>
           <li><strong>Connexion</strong> — session Laravel ; redirection selon <code>role_id</code> (admin déconnecté s’il tente le portail client).</li>
-          <li><strong>Panier</strong> — nécessite d’être connecté ; lignes stockées en base (<code>carts</code>).</li>
+          <li><strong>Panier</strong> — nécessite d’être connecté ; lignes stockées en base (<code>carts</code>) ; ajout au panier avec quantité (fiche produit / paramètre <code>quantity</code>).</li>
           <li><strong>Commandes</strong> — liste sur <code>client.orders</code> ; création possible via <code>store_order</code> avec livraison renseignée.</li>
           <li><strong>Livraison</strong> — formulaires création / édition des <code>DeliveryInfo</code>.</li>
         </ul>
@@ -575,12 +593,42 @@ php artisan db:seed --class=RoleSeeder</code></pre>
           Le contrôleur <code>StripeController</code> crée une <strong>Checkout Session</strong> en euros, à partir des articles du panier envoyés en JSON.
           Les URLs de retour sont <code>checkout.success</code> et <code>checkout.cancel</code>.
         </p>
+        <h3>Configuration</h3>
         <p>
-          Définissez <code>STRIPE_SECRET</code> dans <code>.env</code> pour l’API serveur. La clé publique peut être exposée au front via
-          <code>STRIPE_KEY</code> / <code>config('services.stripe.key')</code> selon votre intégration JavaScript.
+          Définissez <code>STRIPE_SECRET</code> et <code>STRIPE_KEY</code> dans <code>.env</code> ; le code utilise
+          <code>config('services.stripe.secret')</code> côté serveur et <code>config('services.stripe.key')</code> pour le front (bouton Checkout).
         </p>
         <pre><code>STRIPE_KEY=pk_test_...
 STRIPE_SECRET=sk_test_...</code></pre>
+        <h3>Retour après paiement &amp; idempotence</h3>
+        <ul style="margin:0;padding-left:1.25rem;color:var(--text-muted)">
+          <li>L’URL de succès Stripe inclut <code>?session_id={CHECKOUT_SESSION_ID}</code> pour retrouver la session côté serveur.</li>
+          <li>Une entrée de cache (<code>stripe.checkout.*</code>) évite de traiter deux fois la même session ; la colonne <code>stripe_checkout_session_id</code> sur <code>orders</code> (unique) empêche les doublons en base.</li>
+          <li>Après création réussie de la commande, les lignes <code>carts</code> de l’utilisateur sont supprimées et la session panier est nettoyée.</li>
+        </ul>
+        <h3>Contraintes Stripe Checkout</h3>
+        <ul style="margin:0;padding-left:1.25rem;color:var(--text-muted)">
+          <li>Les images des lignes de session doivent être en <strong>HTTPS</strong> (sinon l’API Stripe peut refuser la session).</li>
+        </ul>
+        <h3>Front (panier / scripts)</h3>
+        <p>
+          La création de session utilise <code>fetch</code> avec le jeton CSRF (balise <code>&lt;meta name=&quot;csrf-token&quot;&gt;</code>).
+          Les scripts spécifiques aux pages (pile Blade <code>@stack('scripts')</code>) doivent être chargés <strong>avant</strong> le JS global
+          (<code>custom.js</code>) pour que le handler du bouton « Payer » soit bien enregistré.
+        </p>
+      </section>
+
+      <section class="doc-section" id="ui">
+        <h2>Interface &amp; thème</h2>
+        <p>
+          Les vues front, client, admin, checkout et livraison s’appuient sur des layouts communs
+          (<code>resources/views/layout/front.blade.php</code>, <code>layout/auth.blade.php</code>) et sur la feuille
+          <code>public/assets/css/app-ui.css</code> pour harmoniser cartes, formulaires, tableaux et pages de succès / annulation.
+        </p>
+        <p>
+          Sur le catalogue et la fiche produit, les favoris (signets) utilisent des <code>id</code> / <code>for</code> uniques par produit pour éviter les conflits HTML.
+          Les avis utilisent un sélecteur par étoiles avec une note par défaut à <strong>1</strong> si aucune sélection n’est encore faite.
+        </p>
       </section>
 
       <section class="doc-section" id="security">
@@ -607,8 +655,9 @@ database/migrations/        # Schéma SQL
 database/seeders/           # Données initiales
 resources/views/            # Vues Blade (front/, client/, admin/, checkout/)
 routes/web.php              # Routes web
-public/assets/              # CSS, JS, images statiques
-docs/                       # Cette documentation (HTML statique)</code></pre>
+public/assets/              # CSS, JS, images statiques (dont app-ui.css)
+README.md                   # Démarrage rapide, variables d’environnement, lien vers cette doc
+docs/                       # Documentation HTML statique (logo.svg, css/, js/)</code></pre>
         <p>
           Pour ouvrir cette documentation : fichier <code>docs/index.html</code> dans le navigateur, ou servez le dossier
           <code>docs/</code> avec n’importe quel serveur HTTP statique.
@@ -616,7 +665,7 @@ docs/                       # Cette documentation (HTML statique)</code></pre>
       </section>
 
       <footer class="footer-doc">
-        Documentation générée pour le projet <strong>Laravel E-commerce</strong> — à jour avec la structure du dépôt au moment de la rédaction.
+        Documentation <strong>v1.1</strong> — Laravel E-commerce (paiement Stripe idempotent, schéma commandes, UI <code>app-ui</code>, correctifs seeders / serveur de dev).
         Les routes et comportements peuvent évoluer ; en cas de doute, se référer au code source.
       </footer>
     </main>
