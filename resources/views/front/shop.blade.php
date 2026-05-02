@@ -61,10 +61,10 @@
               <div class="bookmark-checkbox">
                 <input
                   type="checkbox"
-                  id="bookmark-toggle"
+                  id="bookmark-toggle-{{ $produit->id }}"
                   class="bookmark-checkbox__input"
                 />
-                <label for="bookmark-toggle" class="bookmark-checkbox__label">
+                <label for="bookmark-toggle-{{ $produit->id }}" class="bookmark-checkbox__label">
                   <svg class="bookmark-checkbox__icon" viewBox="0 0 24 24">
                     <path
                       class="bookmark-checkbox__icon-back"

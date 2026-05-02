@@ -16,16 +16,25 @@ class CartController extends Controller {
 
         $produit = Produit::findOrFail($produitId);
 
+        $stock = max(0, (int) $produit->quantity);
+        if ($stock < 1) {
+            return redirect()->back()->with('error_cart', 'Ce produit n\'est plus en stock.');
+        }
+
+        $maxPerAdd = min(10, $stock);
+        $qty = (int) $request->input('quantity', 1);
+        $qty = max(1, min($qty, $maxPerAdd));
+
         $cart = Cart::where('user_id', Auth::id())->where('produit_id', $produitId)->first();
 
         if ($cart) {
-            $cart->quantity += 1;
+            $cart->quantity = min($cart->quantity + $qty, $stock);
             $cart->save();
         } else {
             Cart::create([
                 'user_id' => Auth::id(),
                 'produit_id' => $produitId,
-                'quantity' => 1,
+                'quantity' => $qty,
             ]);
         }
 

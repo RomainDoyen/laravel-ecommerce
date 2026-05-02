@@ -1,66 +1,62 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>Inscription</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="{{ asset('assets/css/form-contact.css') }}">
-		<link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet" />
-	</head>
-	<body>
-		<div class="wrapper" style="background-image: url('{{ asset('assets/images/bg-registration-form-1.jpg') }}');">
-			<div class="backhome">
-        <a href="{{ route('front.index') }}" class="bottom-text-w3ls">Revenir à la page d'accueil</a>
-      </div> 
-			<div class="inner">
-				<div class="image-holder">
-					<img src="{{ asset('assets/images/register.png') }}" alt="">
-				</div>
-				<form method="POST" action="{{ route('client.register.post') }}">
-					@csrf
-					@method('POST')
-					<h3>S'Inscrire</h3>
-					<div>
-						@if (session('status'))
-							<div style="color: green;">
-								{{ session('status') }}
-							</div>
-						@elseif (session('error'))
-							<div style="color: red;">
-								{{ session('error') }}
-							</div>
-						@endif
-					</div>
-					<div class="form-group">
-						<input type="text" name="prenom" placeholder="Prénom" class="form-control">
-						<input type="text" name="nom" placeholder="Nom" class="form-control">
-					</div>
-					<div class="form-wrapper">
-						<input type="text" name="email" placeholder="Adresse email" class="form-control">
-						<i class="fa fa-envelope"></i>
-					</div>
-					<div class="form-wrapper">
-						<input type="password" id="passwordField" name="password" placeholder="Mot de passe" class="form-control">
-						<div class="password-icon">
-							<i class="fa fa-eye" id="eyeIcon"></i>
-							<i class="fa fa-eye-slash" id="eyeSlashIcon" style="display: none;"></i>
-						</div>
-					</div>
-					<!-- <div class="form-wrapper">
-						<input type="password" placeholder="Confirm Password" class="form-control">
-						<i class="zmdi zmdi-lock"></i>
-					</div> -->
-					<button>
-						S'inscrire <i class="fa fa-arrow-right"></i>
-					</button>
-					<br>
-					<div class="links">
-						<a href="{{ route('client.login') }}" class="bottom-text-w3ls">Vous avez un compte ? Se connecter maintenant.</a>
-					</div>
-				</form>
-			</div>
-		</div>
-		<script src="{{ asset('assets/js/custom.js') }}"></script>
-	</body>
-</html>
+@extends('layout.auth')
 
+@section('title', 'Inscription — Ecommerce')
+
+@section('content')
+<div class="app-auth-card app-auth-card--wide">
+  <h1>Créer un compte</h1>
+  <p class="app-auth-sub">Quelques informations pour commander sereinement</p>
+
+  @if (session('status'))
+    <div class="app-auth-flash app-auth-flash--ok">{{ session('status') }}</div>
+  @endif
+  @if (session('error'))
+    <div class="app-auth-flash app-auth-flash--err">{{ session('error') }}</div>
+  @endif
+
+  <form method="POST" action="{{ route('client.register.post') }}">
+    @csrf
+    <div class="app-auth-field app-auth-field--inline">
+      <div>
+        <label for="prenom">Prénom</label>
+        <input id="prenom" type="text" name="prenom" value="{{ old('prenom') }}" required placeholder="Prénom">
+        @error('prenom')
+          <div class="app-auth-error">{{ $message }}</div>
+        @enderror
+      </div>
+      <div>
+        <label for="nom">Nom</label>
+        <input id="nom" type="text" name="nom" value="{{ old('nom') }}" required placeholder="Nom">
+        @error('nom')
+          <div class="app-auth-error">{{ $message }}</div>
+        @enderror
+      </div>
+    </div>
+    <div class="app-auth-field">
+      <label for="email">E-mail</label>
+      <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="vous@exemple.fr">
+      @error('email')
+        <div class="app-auth-error">{{ $message }}</div>
+      @enderror
+    </div>
+    <div class="app-auth-field">
+      <label for="passwordField">Mot de passe</label>
+      <div style="position:relative">
+        <input id="passwordField" type="password" name="password" required autocomplete="new-password" placeholder="Au moins 4 caractères" style="padding-right:2.5rem">
+        <span style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);color:#6b6b6b;">
+          <i class="fa fa-eye" id="eyeIcon" style="cursor:pointer"></i>
+          <i class="fa fa-eye-slash" id="eyeSlashIcon" style="display:none;cursor:pointer"></i>
+        </span>
+      </div>
+      @error('password')
+        <div class="app-auth-error">{{ $message }}</div>
+      @enderror
+    </div>
+    <button type="submit" class="app-auth-submit">S’inscrire</button>
+  </form>
+
+  <div class="app-auth-links">
+    <p><a href="{{ route('client.login') }}">Déjà un compte ? Se connecter</a></p>
+  </div>
+</div>
+@endsection

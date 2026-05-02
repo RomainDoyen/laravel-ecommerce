@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Documentation technique du projet e-commerce Laravel — installation, architecture, routes, modèles et configuration." />
+  <title>Documentation — Laravel E-commerce</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="mobile-bar">
+    <strong style="font-size:0.9rem">Documentation</strong>
+    <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </div>
+
+  <div class="doc-layout">
+    <aside class="sidebar" id="sidebar" aria-label="Navigation">
+      <div class="brand">
+        <div class="brand-icon">LE</div>
+        <div>
+          <h1>Laravel E-commerce</h1>
+          <span>Documentation v1.0</span>
+        </div>
+      </div>
+
+      <div class="search-wrap">
+        <label for="doc-search" class="hidden">Filtrer la navigation</label>
+        <input type="search" id="doc-search" placeholder="Filtrer les sections…" autocomplete="off" />
+      </div>
+
+      <div class="nav-section">Démarrage</div>
+      <ul class="nav-list">
+        <li><a href="#intro">Présentation</a></li>
+        <li><a href="#stack">Stack technique</a></li>
+        <li><a href="#install">Installation</a></li>
+        <li><a href="#config">Configuration</a></li>
+      </ul>
+
+      <div class="nav-section">Données</div>
+      <ul class="nav-list">
+        <li><a href="#database">Base de données</a></li>
+        <li><a href="#models">Modèles & relations</a></li>
+        <li><a href="#seeders">Seeders</a></li>
+      </ul>
+
+      <div class="nav-section">Application</div>
+      <ul class="nav-list">
+        <li><a href="#routes">Routes HTTP</a></li>
+        <li><a href="#client">Espace client</a></li>
+        <li><a href="#admin">Administration</a></li>
+        <li><a href="#stripe">Paiement Stripe</a></li>
+        <li><a href="#security">Sécurité & rôles</a></li>
+        <li><a href="#structure">Structure des dossiers</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <button type="button" class="btn-icon" id="theme-toggle" title="Changer le thème" aria-label="Thème">☀️</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="hero" id="intro">
+        <div class="hero-badge">PHP 8.2+ · Laravel 11 · MySQL</div>
+        <h2>Documentation du projet e-commerce</h2>
+        <p>
+          Boutique en ligne avec catalogue, panier utilisateur, avis produits, commandes,
+          informations de livraison et paiement via Stripe Checkout. Cette page décrit l’installation,
+          la configuration et l’architecture du dépôt <code>laravel-ecommerce</code>.
+        </p>
+      </header>
+
+      <section class="doc-section" id="stack">
+        <h2>Stack technique</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Composant</th>
+                <th>Détail</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Framework</td>
+                <td>Laravel 11</td>
+              </tr>
+              <tr>
+                <td>PHP</td>
+                <td>8.2 minimum</td>
+              </tr>
+              <tr>
+                <td>Base de données</td>
+                <td>MySQL (sessions, cache et files en base possibles)</td>
+              </tr>
+              <tr>
+                <td>Front</td>
+                <td>Blade, Tailwind (Vite), assets dans <code>public/assets</code></td>
+              </tr>
+              <tr>
+                <td>Paiement</td>
+                <td>Stripe PHP SDK + Checkout Session (<code>stripe/stripe-php</code>)</td>
+              </tr>
+              <tr>
+                <td>Abonnements (paquet)</td>
+                <td><code>laravel/cashier</code> présent dans <code>composer.json</code> (usage selon implémentation)</td>
+              </tr>
+              <tr>
+                <td>Tests</td>
+                <td>Pest PHP</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="doc-section" id="install">
+        <h2>Installation</h2>
+        <h3>Prérequis</h3>
+        <p>Composer, Node.js &amp; npm, extension PHP <code>pdo_mysql</code>, serveur MySQL, compte Stripe (pour le paiement).</p>
+
+        <h3>Étapes</h3>
+        <pre><code># Dépendances PHP
+composer install
+
+# Fichier d'environnement
+cp .env.example .env
+php artisan key:generate
+
+# Base de données : créer la base (ex. ecommerce) puis renseigner .env
+php artisan migrate
+
+# Optionnel : données de démo (rôles + utilisateurs)
+php artisan db:seed
+
+# Assets front (Vite)
+npm install
+npm run build   # ou npm run dev en développement</code></pre>
+
+        <div class="alert alert-info">
+          <strong>Santé de l’application :</strong> Laravel 11 expose une route <code>GET /up</code> pour les sondes de disponibilité.
+        </div>
+      </section>
+
+      <section class="doc-section" id="config">
+        <h2>Configuration (<code>.env</code>)</h2>
+        <p>Variables courantes (voir aussi <code>.env.example</code> à la racine du projet) :</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Variable</th>
+                <th>Rôle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>APP_KEY</code></td>
+                <td>Obligatoire — généré par <code>php artisan key:generate</code></td>
+              </tr>
+              <tr>
+                <td><code>APP_URL</code></td>
+                <td>URL publique (ex. <code>http://127.0.0.1:8000</code>)</td>
+              </tr>
+              <tr>
+                <td><code>DB_*</code></td>
+                <td>Connexion MySQL (<code>DB_DATABASE</code>, <code>DB_USERNAME</code>, etc.)</td>
+              </tr>
+              <tr>
+                <td><code>STRIPE_KEY</code></td>
+                <td>Clé publiable Stripe (front / config <code>services.stripe</code>)</td>
+              </tr>
+              <tr>
+                <td><code>STRIPE_SECRET</code></td>
+                <td>Clé secrète — utilisée côté serveur dans <code>StripeController</code></td>
+              </tr>
+              <tr>
+                <td><code>SESSION_DRIVER</code></td>
+                <td>Souvent <code>database</code> (tables <code>sessions</code> après migrations)</td>
+              </tr>
+              <tr>
+                <td><code>QUEUE_CONNECTION</code></td>
+                <td><code>database</code> si vous utilisez les files d’attente en SQL</td>
+              </tr>
+              <tr>
+                <td><code>MAIL_*</code></td>
+                <td>Pour les e-mails (réinitialisation de mot de passe, etc.)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="doc-section" id="database">
+        <h2>Base de données</h2>
+        <p>Principales tables (déduites des migrations) :</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Table</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>roles</code></td>
+                <td>Rôles (<code>libelle</code>) — ex. Administrateur, Client</td>
+              </tr>
+              <tr>
+                <td><code>users</code></td>
+                <td>Utilisateurs (<code>nom</code>, <code>prenom</code>, <code>email</code>, <code>password</code>, <code>role_id</code>)</td>
+              </tr>
+              <tr>
+                <td><code>categories</code></td>
+                <td>Catégories de produits</td>
+              </tr>
+              <tr>
+                <td><code>produits</code></td>
+                <td>Produits (<code>titre</code>, <code>prix</code>, <code>category_id</code>, stock, promo, image…)</td>
+              </tr>
+              <tr>
+                <td><code>carts</code></td>
+                <td>Lignes de panier par utilisateur et produit</td>
+              </tr>
+              <tr>
+                <td><code>reviews</code></td>
+                <td>Avis sur les produits</td>
+              </tr>
+              <tr>
+                <td><code>delivery_infos</code></td>
+                <td>Coordonnées de livraison par utilisateur</td>
+              </tr>
+              <tr>
+                <td><code>orders</code></td>
+                <td>Commandes (<code>total</code>, <code>status</code>, <code>items</code> JSON, <code>order_number</code>, lien livraison)</td>
+              </tr>
+              <tr>
+                <td><code>sessions</code>, <code>cache</code>, <code>jobs</code></td>
+                <td>Tables Laravel (sessions, cache, files d’attente)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="doc-section" id="models">
+        <h2>Modèles Eloquent</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Modèle</th>
+                <th>Relations principales</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>User</code></td>
+                <td><code>belongsTo</code> <strong>Role</strong> · <code>hasMany</code> <strong>Cart</strong>, <strong>Order</strong> · <code>hasOne</code> <strong>DeliveryInfo</strong></td>
+              </tr>
+              <tr>
+                <td><code>Role</code></td>
+                <td>Liste des rôles</td>
+              </tr>
+              <tr>
+                <td><code>Produit</code></td>
+                <td><code>belongsTo</code> <strong>Category</strong> · <code>hasMany</code> <strong>Review</strong></td>
+              </tr>
+              <tr>
+                <td><code>Category</code></td>
+                <td>Catégories</td>
+              </tr>
+              <tr>
+                <td><code>Cart</code></td>
+                <td>Panier (utilisateur ↔ produit, quantité)</td>
+              </tr>
+              <tr>
+                <td><code>Review</code></td>
+                <td>Avis liés à un produit et un utilisateur</td>
+              </tr>
+              <tr>
+                <td><code>Order</code></td>
+                <td><code>belongsTo</code> <strong>User</strong>, <strong>DeliveryInfo</strong></td>
+              </tr>
+              <tr>
+                <td><code>DeliveryInfo</code></td>
+                <td>Infos de livraison</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="doc-section" id="seeders">
+        <h2>Seeders</h2>
+        <p>
+          Le <code>DatabaseSeeder</code> appelle <strong>RoleSeeder</strong> puis crée deux utilisateurs de démonstration via la factory.
+          Les seeders <code>CategoriesSeeder</code>, <code>ProduitSeeder</code> et <code>ReviewSeeder</code> existent dans le projet mais ne sont
+          <strong>pas</strong> invoqués par défaut — ajoutez-les dans <code>DatabaseSeeder</code> ou lancez-les à la main.
+        </p>
+        <pre><code># Tout le DatabaseSeeder
+php artisan db:seed
+
+# Un seeder précis
+php artisan db:seed --class=CategoriesSeeder
+php artisan db:seed --class=RoleSeeder</code></pre>
+
+        <h3>Comptes de démo (après <code>db:seed</code>)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Mot de passe</th>
+                <th>Rôle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>johndoe@gmail.com</code></td>
+                <td><code>1234</code></td>
+                <td>Client (rôle « Client » — <code>role_id</code> issu du seeder)</td>
+              </tr>
+              <tr>
+                <td><code>admin@test.fr</code></td>
+                <td><code>admin1234</code></td>
+                <td>Administrateur (<code>role_id = 1</code>)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="alert alert-warn">
+          <strong>Important :</strong> changez ces identifiants en production et ne versionnez jamais de vrais secrets.
+        </div>
+      </section>
+
+      <section class="doc-section" id="routes">
+        <h2>Routes HTTP (<code>routes/web.php</code>)</h2>
+        <p>Préfixe d’URL selon votre <code>APP_URL</code> et serveur (<code>php artisan serve</code> → port 8000 par défaut).</p>
+
+        <h3>Vitrine &amp; catalogue</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Méthode</th>
+                <th>Chemin</th>
+                <th>Nom de route</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="route-method method-get">GET</span></td>
+                <td><code>/</code></td>
+                <td><code>front.index</code></td>
+                <td>Accueil</td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-get">GET</span></td>
+                <td><code>/shop</code></td>
+                <td><code>front.shop</code></td>
+                <td>Boutique</td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-get">GET</span></td>
+                <td><code>/about</code></td>
+                <td><code>front.about</code></td>
+                <td>À propos</td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-get">GET</span></td>
+                <td><code>/contact</code></td>
+                <td><code>front.contact</code></td>
+                <td>Contact</td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-get">GET</span></td>
+                <td><code>/cart</code></td>
+                <td><code>front.cart</code></td>
+                <td>Panier (vue)</td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-get">GET</span></td>
+                <td><code>/details/{id}</code></td>
+                <td><code>front.details</code></td>
+                <td>Fiche produit</td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-get">GET</span></td>
+                <td><code>/search</code></td>
+                <td><code>search</code></td>
+                <td>Recherche</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Panier (actions)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Méthode</th>
+                <th>Chemin</th>
+                <th>Nom</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="route-method method-get">GET</span></td>
+                <td><code>/addToCart/{id}</code></td>
+                <td><code>add_to_cart</code></td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-get">GET</span></td>
+                <td><code>/removeFromCart/{id}</code></td>
+                <td><code>remove_from_cart</code></td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-get">GET</span></td>
+                <td><code>/incrementQuantity/{id}</code></td>
+                <td><code>increment_quantity</code></td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-get">GET</span></td>
+                <td><code>/decrementQuantity/{id}</code></td>
+                <td><code>decrement_quantity</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Avis</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Méthode</th>
+                <th>Chemin</th>
+                <th>Nom</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="route-method method-post">POST</span></td>
+                <td><code>/produit/{produit}/review</code></td>
+                <td><code>add_review</code></td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-delete">DEL</span></td>
+                <td><code>/review/{review}</code></td>
+                <td><code>delete_review</code></td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-put">PUT</span></td>
+                <td><code>/review/{review}/edit</code></td>
+                <td><code>edit_review</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Commandes &amp; livraison</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Méthode</th>
+                <th>Chemin</th>
+                <th>Nom</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="route-method method-get">GET</span></td>
+                <td><code>/espace-client/commandes</code></td>
+                <td><code>client.orders</code></td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-post">POST</span></td>
+                <td><code>/store-order</code></td>
+                <td><code>store_order</code></td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-get">GET</span></td>
+                <td><code>/delivery-info</code></td>
+                <td><code>delivery.create</code></td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-post">POST</span></td>
+                <td><code>/delivery-info</code></td>
+                <td><code>delivery.store</code></td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-get">GET</span></td>
+                <td><code>/delivery-info/edit</code></td>
+                <td><code>delivery.edit</code></td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-post">POST</span></td>
+                <td><code>/delivery-info/update</code></td>
+                <td><code>delivery.update</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Stripe</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Méthode</th>
+                <th>Chemin</th>
+                <th>Nom</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="route-method method-post">POST</span></td>
+                <td><code>/create-checkout-session</code></td>
+                <td><code>checkout.session</code></td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-get">GET</span></td>
+                <td><code>/checkout-success</code></td>
+                <td><code>checkout.success</code></td>
+              </tr>
+              <tr>
+                <td><span class="route-method method-get">GET</span></td>
+                <td><code>/checkout-cancel</code></td>
+                <td><code>checkout.cancel</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Préfixe <code>/client</code></h3>
+        <p>Connexion, inscription, espace perso, mot de passe oublié (routes nommées <code>client.*</code>).</p>
+
+        <h3>Administration</h3>
+        <p>
+          Les routes <code>/admin/dashboard</code>, <code>/admin/add</code>, édition / suppression produit sont protégées par
+          <code>AdminMiddleware</code>. La connexion admin reste sur <code>/admin/login</code> (hors du groupe middleware).
+        </p>
+      </section>
+
+      <section class="doc-section" id="client">
+        <h2>Espace client</h2>
+        <ul style="margin:0;padding-left:1.25rem;color:var(--text-muted)">
+          <li><strong>Inscription</strong> — <code>POST /client/register/post</code> : affectation du rôle « Client » via le modèle <code>Role</code>.</li>
+          <li><strong>Connexion</strong> — session Laravel ; redirection selon <code>role_id</code> (admin déconnecté s’il tente le portail client).</li>
+          <li><strong>Panier</strong> — nécessite d’être connecté ; lignes stockées en base (<code>carts</code>).</li>
+          <li><strong>Commandes</strong> — liste sur <code>client.orders</code> ; création possible via <code>store_order</code> avec livraison renseignée.</li>
+          <li><strong>Livraison</strong> — formulaires création / édition des <code>DeliveryInfo</code>.</li>
+        </ul>
+      </section>
+
+      <section class="doc-section" id="admin">
+        <h2>Administration</h2>
+        <p>
+          Accès au tableau de bord et à la gestion des produits pour les utilisateurs avec
+          <code>role_id === 1</code> (Administrateur). Connexion dédiée <code>/admin/login</code>.
+        </p>
+        <p>Fonctions typiques : liste produits / catégories / commandes sur le dashboard, ajout et modification de produits (upload d’image, catégorie), suppression.</p>
+      </section>
+
+      <section class="doc-section" id="stripe">
+        <h2>Paiement Stripe</h2>
+        <p>
+          Le contrôleur <code>StripeController</code> crée une <strong>Checkout Session</strong> en euros, à partir des articles du panier envoyés en JSON.
+          Les URLs de retour sont <code>checkout.success</code> et <code>checkout.cancel</code>.
+        </p>
+        <p>
+          Définissez <code>STRIPE_SECRET</code> dans <code>.env</code> pour l’API serveur. La clé publique peut être exposée au front via
+          <code>STRIPE_KEY</code> / <code>config('services.stripe.key')</code> selon votre intégration JavaScript.
+        </p>
+        <pre><code>STRIPE_KEY=pk_test_...
+STRIPE_SECRET=sk_test_...</code></pre>
+      </section>
+
+      <section class="doc-section" id="security">
+        <h2>Sécurité &amp; rôles</h2>
+        <div class="card">
+          <p style="margin-top:0"><strong>Rôles</strong></p>
+          <ul style="margin:0;padding-left:1.25rem;color:var(--text-muted)">
+            <li><code>role_id = 1</code> — Administrateur (back-office, middleware admin).</li>
+            <li>Autre valeur (ex. « Client ») — accès front et espace client.</li>
+          </ul>
+          <p style="margin-bottom:0">
+            <code>AdminMiddleware</code> vérifie l’authentification et <code>role_id === 1</code>, sinon redirection vers l’accueil.
+            Les actions sensibles dans <code>AdminController</code> redoublent parfois ces contrôles.
+          </p>
+        </div>
+      </section>
+
+      <section class="doc-section" id="structure">
+        <h2>Structure utile du dépôt</h2>
+        <pre><code>app/Http/Controllers/     # Contrôleurs (Pages, Cart, Clients, Admin, Stripe…)
+app/Models/                 # Modèles Eloquent
+app/Http/Middleware/        # Ex. AdminMiddleware
+database/migrations/        # Schéma SQL
+database/seeders/           # Données initiales
+resources/views/            # Vues Blade (front/, client/, admin/, checkout/)
+routes/web.php              # Routes web
+public/assets/              # CSS, JS, images statiques
+docs/                       # Cette documentation (HTML statique)</code></pre>
+        <p>
+          Pour ouvrir cette documentation : fichier <code>docs/index.html</code> dans le navigateur, ou servez le dossier
+          <code>docs/</code> avec n’importe quel serveur HTTP statique.
+        </p>
+      </section>
+
+      <footer class="footer-doc">
+        Documentation générée pour le projet <strong>Laravel E-commerce</strong> — à jour avec la structure du dépôt au moment de la rédaction.
+        Les routes et comportements peuvent évoluer ; en cas de doute, se référer au code source.
+      </footer>
+    </main>
+  </div>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>

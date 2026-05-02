@@ -11,6 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasColumn('produits', 'category_id')) {
+            return;
+        }
+
         Schema::table('produits', function (Blueprint $table) {
             $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('set null');
         });
@@ -21,9 +25,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('produits', function (Blueprint $table) {
-            $table->dropForeign(['category_id']);
-            $table->dropColumn('category_id');
-        });
+        // category_id est déjà définie dans create_produits_table ; ne pas la retirer ici
+        // quand up() a été ignorée, sinon migrate:rollback casse le schéma attendu.
     }
 };

@@ -8,52 +8,55 @@
 
     <section class="slider_section">
         <div class="slider_container">
-            <h1>Mes commandes</h1>
+            <h1 style="font-size:1.75rem;padding:0.5rem 1rem;">Mes commandes</h1>
         </div>
     </section>
 
-    <section class="why_section layout_padding">
+    <section class="app-page-section">
         <div class="container">
-            <div class="heading_container">
-                <h2>Vos commandes</h2>
-                @if ($orders->isNotEmpty())
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Date</th>
-                                <th>Numéro de commande</th>
-                                <th>Statut</th>
-                                <th>Total</th>
-                                <th>Produits</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($orders as $order)
+            <h2 class="app-section-heading">Historique</h2>
+            @if ($orders->isNotEmpty())
+                <div class="app-table-wrap">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td>{{ $order->id }}</td>
-                                    <td>
-                                        Le {{ $order->created_at->format('d/m/Y') }}<br>
-                                        à {{ $order->created_at->format('H:i') }}
-                                    </td>
-                                    <td><strong>{{ $order->order_number }}</strong></td>
-                                    <td>{{ ucfirst($order->status) }}</td>
-                                    <td>{{ number_format($order->total, 2) }} €</td>
-                                    <td>
-                                        <ul>
-                                            @foreach (json_decode($order->items, true) as $item)
-                                                <li>{{ $item['name'] }} (x{{ $item['quantity'] }})</li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>N° commande</th>
+                                    <th>Statut</th>
+                                    <th>Total</th>
+                                    <th>Articles</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                @else
-                    <p>Vous n'avez pas encore passé de commandes.</p>
-                @endif
-            </div>
+                            </thead>
+                            <tbody>
+                                @foreach ($orders as $order)
+                                    <tr>
+                                        <td>{{ $order->id }}</td>
+                                        <td>
+                                            {{ $order->created_at->format('d/m/Y') }}<br>
+                                            <span class="text-muted small">{{ $order->created_at->format('H:i') }}</span>
+                                        </td>
+                                        <td><strong>{{ $order->order_number }}</strong></td>
+                                        <td>{{ ucfirst($order->status) }}</td>
+                                        <td>{{ number_format($order->total, 2) }} €</td>
+                                        <td>
+                                            <ul class="mb-0 pl-3 small">
+                                                @foreach (json_decode($order->items, true) ?? [] as $item)
+                                                    <li>{{ $item['name'] ?? '—' }} ×{{ $item['quantity'] ?? 0 }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @else
+                <p class="app-section-lead">Vous n’avez pas encore passé de commande.</p>
+                <a href="{{ route('front.shop') }}" class="app-btn app-btn--primary">Découvrir la boutique</a>
+            @endif
         </div>
     </section>
 </div>

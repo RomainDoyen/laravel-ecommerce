@@ -8,7 +8,7 @@ use App\Models\DeliveryInfo;
 
 class Order extends Model
 {
-    protected $fillable = ['user_id', 'status', 'total', 'items', 'order_number', 'payment_method', 'delivery_info_id'];
+    protected $fillable = ['user_id', 'status', 'total', 'items', 'order_number', 'stripe_checkout_session_id', 'payment_method', 'delivery_info_id'];
 
     public function user()
     {

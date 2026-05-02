@@ -1,63 +1,39 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>Connexion</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="{{ asset('assets/css/form-contact.css') }}">
-		<link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet" />
-	</head>
-	<body>
-		<div class="wrapper" style="background-image: url('{{ asset('assets/images/bg-registration-form-1.jpg') }}');">
-        <div class="backhome">
-          <a href="{{ route('front.index') }}" class="bottom-text-w3ls">Revenir à la page d'accueil</a>
-        </div>
-				<div class="message">
-					@if (session('error_cart'))
-						<div class="alert alert-danger">
-							{{ session('error_cart') }}
-						</div>
-					@endif
-				</div>    
-        <div class="inner">
-					<div class="image-holder">
-						<img src="{{ asset('assets/images/signup.png') }}" alt="">
-					</div>
-					<form action="{{ route('client.reset-password.post') }}" method="POST">
-						@csrf
-						@method('POST')
-						<h3>Réinitialiser le mot de passe</h3>
-						@error('email')
-							<div style="color: red;">{{ $message }}</div>
-						@enderror
-						<div class="form-wrapper">
-							<input type="text" name="email" placeholder="Adresse email" class="form-control">
-								<i class="fa fa-envelope"></i>
-						</div>
-						{{-- <div class="form-wrapper">
-							<input type="password" id="passwordField" name="password" placeholder="Mot de passe actuel" class="form-control">
-							<div class="password-icon">
-								<i class="fa fa-eye" id="eyeIcon"></i>
-								<i class="fa fa-eye-slash" id="eyeSlashIcon" style="display: none;"></i>
-							</div>
-						</div> --}}
-            <div class="form-wrapper">
-							<input type="password" id="passwordField" name="password" placeholder="Nouveau mot de passe" class="form-control">
-							<div class="password-icon">
-								<i class="fa fa-eye" id="eyeIcon"></i>
-								<i class="fa fa-eye-slash" id="eyeSlashIcon" style="display: none;"></i>
-							</div>
-						</div>
-						<button>
-							Réinitialiser le mot de passe <i class="fa fa-arrow-right"></i>
-						</button>
-							<br>
-						<div class="links">
-							<a href="{{ route('client.register') }}" class="bottom-text-w3ls">Pas de compte ? S'inscrire maintenant.</a>
-						</div>
-					</form>
-				</div>
-		</div>
-		<script src="{{ asset('assets/js/custom.js') }}"></script>
-	</body>
-</html>
+@extends('layout.auth')
+
+@section('title', 'Nouveau mot de passe — Ecommerce')
+
+@section('content')
+<div class="app-auth-card">
+  <h1>Nouveau mot de passe</h1>
+  <p class="app-auth-sub">Choisissez un mot de passe sécurisé</p>
+
+  <form action="{{ route('client.reset-password.post') }}" method="POST">
+    @csrf
+    <input type="hidden" name="token" value="{{ $token }}">
+
+    <div class="app-auth-field">
+      <label for="email">E-mail</label>
+      <input id="email" type="email" name="email" value="{{ old('email', request('email')) }}" required autocomplete="email">
+      @error('email')
+        <div class="app-auth-error">{{ $message }}</div>
+      @enderror
+    </div>
+    <div class="app-auth-field">
+      <label for="password">Nouveau mot de passe</label>
+      <input id="password" type="password" name="password" required autocomplete="new-password" placeholder="••••••••">
+      @error('password')
+        <div class="app-auth-error">{{ $message }}</div>
+      @enderror
+    </div>
+    <div class="app-auth-field">
+      <label for="password_confirmation">Confirmation</label>
+      <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="••••••••">
+    </div>
+    <button type="submit" class="app-auth-submit">Enregistrer</button>
+  </form>
+
+  <div class="app-auth-links">
+    <p><a href="{{ route('client.login') }}">← Retour à la connexion</a></p>
+  </div>
+</div>
+@endsection

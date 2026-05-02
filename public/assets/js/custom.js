@@ -1,132 +1,119 @@
-document.getElementById('searchInput').addEventListener('input', function (e) {
-    const query = e.target.value;
-    const resultsContainer = document.querySelector('.search-results-container');
+(function () {
+  'use strict';
 
-    if (query.trim() === '') {
+  const searchInput = document.getElementById('searchInput');
+  const resultsContainer = document.querySelector('.search-results-container');
+
+  if (searchInput && resultsContainer) {
+    searchInput.addEventListener('input', function (e) {
+      const query = e.target.value;
+      if (query.trim() === '') {
         resultsContainer.innerHTML = '';
         return;
-    }
+      }
 
-    fetch(`/search?query=${encodeURIComponent(query)}`)
-        .then(response => response.text())
-        .then(data => {
-            resultsContainer.innerHTML = data;
+      fetch('/search?query=' + encodeURIComponent(query))
+        .then(function (response) {
+          return response.text();
         })
-        .catch(error => {
-            console.error('Erreur lors de la recherche:', error);
+        .then(function (data) {
+          resultsContainer.innerHTML = data;
+        })
+        .catch(function (error) {
+          console.error('Erreur lors de la recherche:', error);
         });
-});
+    });
+  }
 
-const searchIcon = document.getElementById('searchIcon');
-const searchInput = document.getElementById('searchInput');
-const checkbox = document.querySelector('.checkbox');
-const searchContainer = document.getElementById('searchContainer');
+  const searchIcon = document.getElementById('searchIcon');
+  const checkbox = document.querySelector('.checkbox');
+  const searchContainer = document.getElementById('searchContainer');
 
-function showSearchInput(e) {
+  function showSearchInput(e) {
     e.stopPropagation();
-    checkbox.checked = true;
-    searchInput.focus();
-}
+    if (checkbox) checkbox.checked = true;
+    if (searchInput) searchInput.focus();
+  }
 
-function hideSearchInput(e) {
+  function hideSearchInput(e) {
+    if (!searchIcon || !checkbox) return;
     if (searchIcon.contains(e.target)) return;
-
     checkbox.checked = false;
-}
+  }
 
-searchIcon?.addEventListener('click', showSearchInput);
+  if (searchIcon) {
+    searchIcon.addEventListener('click', showSearchInput);
+  }
+  if (searchInput) {
+    searchInput.addEventListener('blur', hideSearchInput);
+  }
+  if (searchContainer) {
+    searchContainer.addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
+  }
+})();
 
-searchInput?.addEventListener('blur', hideSearchInput);
-
-searchContainer?.addEventListener('click', function(e) {
-    e.stopPropagation();
-});
-
-// Code to show and hide password
 function toggleForm(reviewId) {
-    const form = document.getElementById(`edit-form-${reviewId}`);
-    const closeButton = document.getElementById(`close-form-${reviewId}`);
+  const form = document.getElementById('edit-form-' + reviewId);
+  const closeButton = document.getElementById('close-form-' + reviewId);
+  if (!form || !closeButton) return;
 
-    if (form.style.display === 'none') {
-        form.style.display = 'block';
-        closeButton.style.display = 'inline-block';
-    } else {
-        form.style.display = 'none';
-        closeButton.style.display = 'none';
-    }
+  if (form.style.display === 'none' || form.style.display === '') {
+    form.style.display = 'block';
+    closeButton.style.display = 'inline-block';
+  } else {
+    form.style.display = 'none';
+    closeButton.style.display = 'none';
+  }
 }
 
-// Code to show and hide password
-const eyeIcon = document.getElementById('eyeIcon');
-const eyeSlashIcon = document.getElementById('eyeSlashIcon');
-const passwordField = document.getElementById('passwordField');
+(function () {
+  const eyeIcon = document.getElementById('eyeIcon');
+  const eyeSlashIcon = document.getElementById('eyeSlashIcon');
+  const passwordField = document.getElementById('passwordField');
+  if (!eyeIcon || !eyeSlashIcon || !passwordField) return;
 
-function showPassword() {
+  function showPassword() {
     eyeIcon.style.display = 'none';
     eyeSlashIcon.style.display = 'inline';
     passwordField.type = 'text';
-}
+  }
 
-function hidePassword() {
+  function hidePassword() {
     eyeSlashIcon.style.display = 'none';
     eyeIcon.style.display = 'inline';
     passwordField.type = 'password';
-}
+  }
 
-eyeIcon?.addEventListener('click', showPassword);
+  eyeIcon.addEventListener('click', showPassword);
+  eyeSlashIcon.addEventListener('click', hidePassword);
+})();
 
-eyeSlashIcon?.addEventListener('click', hidePassword);
-
-// owl carousel
-$(document).ready(function(){
-    $(".owl-carousel").owlCarousel({
-        items: 3, // Nombre d'éléments visibles
-        loop: true, // Activer le défilement en boucle
-        margin: 10, // Espacement entre les éléments
-        nav: true, // Activer les flèches de navigation
-        navText: ["❮", "❯"], // Personnalisation des flèches
-        responsive: {
-            0: {
-                items: 1 // Sur mobile : 1 élément visible
-            },
-            768: {
-                items: 2 // Sur tablette : 2 éléments visibles
-            },
-            1024: {
-                items: 3 // Sur ordinateur : 3 éléments visibles
-            }
-        }
-    });
-});
-
-// to get current year
 function getYear() {
-    var currentDate = new Date();
-    var currentYear = currentDate.getFullYear();
-    // @ts-ignore
-    document.querySelector("#displayYear").innerHTML = currentYear;
+  var el = document.querySelector('#displayYear');
+  if (!el) return;
+  el.textContent = new Date().getFullYear();
 }
-
 getYear();
 
-// owl carousel 
-
-// @ts-ignore
-$('.owl-carousel').owlCarousel({
-    loop: true,
-    margin: 10,
-    nav: true,
-    autoplay: true,
-    autoplayHoverPause: true,
-    responsive: {
-        0: {
-            items: 1
+if (typeof jQuery !== 'undefined' && jQuery.fn.owlCarousel) {
+  jQuery(document).ready(function ($) {
+    var $carousels = $('.owl-carousel');
+    if ($carousels.length) {
+      $carousels.owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: true,
+        autoplay: true,
+        autoplayHoverPause: true,
+        navText: ['❮', '❯'],
+        responsive: {
+          0: { items: 1 },
+          600: { items: 2 },
+          1000: { items: 3 },
         },
-        600: {
-            items: 3
-        },
-        1000: {
-            items: 6
-        }
+      });
     }
-})
+  });
+}

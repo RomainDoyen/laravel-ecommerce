@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
@@ -76,12 +79,19 @@ class ClientsController extends Controller
             'password' => 'required|min:4',
         ]);
 
+        $clientRole = Role::query()->where('libelle', 'Client')->first();
+        if ($clientRole === null) {
+            return back()
+                ->withInput()
+                ->withErrors(['email' => 'Configuration serveur : les rôles ne sont pas initialisés. Exécutez : php artisan db:seed --class=RoleSeeder']);
+        }
+
         $user = new User();
         $user->nom = $request->nom;
         $user->prenom = $request->prenom;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        $user->role_id = 2;
+        $user->role_id = $clientRole->id;
         $user->save();
 
         // return redirect()->route('client.login');

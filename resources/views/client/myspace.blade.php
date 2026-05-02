@@ -2,66 +2,61 @@
 
 @section('contentPage')
 <div class="hero_area">
-    <!-- header section starts -->
     <header class="header_section">
         <x-menu_navigation />
     </header>
-    <!-- end header section -->
 
     <section class="slider_section">
         <div class="slider_container">
-            <h1>Tableau de bord</h1>
+            <h1 style="font-size:1.75rem;padding:0.5rem 1rem;">Mon espace</h1>
         </div>
     </section>
 
-    <!-- Main Section -->
-    <section class="why_section layout_padding">
+    <section class="app-page-section">
         <div class="container">
+            @if(session('success'))
+                <div class="app-alert app-alert--success mb-4">{{ session('success') }}</div>
+            @endif
             <div class="row">
-                <!-- Section de bienvenue -->
-                <div class="col-md-8">
-                    <div class="heading_container">
-                        <h2>
-                            @if (Auth::check())
-                                Bienvenu(e) {{ Auth::user()->prenom }} {{ Auth::user()->nom }}
-                            @else
-                                Veuillez vous connecter pour accéder à votre espace client.
-                            @endif
-                        </h2>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            Accusantium, obcaecati aut magni minima velit, rerum saepe consectetur placeat
-                            officiis reiciendis quas repellendus adipisci reprehenderit totam nobis odio laborum consequuntur non?
-                        </p>
+                <div class="col-lg-8 mb-4 mb-lg-0">
+                    <div class="app-dashboard-hero">
+                        <h2 class="app-section-heading">Bienvenue</h2>
                         @auth
-                            <div class="btn-logout">
-                                <a href="{{ route('client.logout') }}">Déconnexion</a>
+                            <p class="app-section-lead mb-0">
+                                Bonjour <strong>{{ Auth::user()->prenom }} {{ Auth::user()->nom }}</strong>.
+                                Gérez vos informations de livraison et consultez vos commandes depuis cette page.
+                            </p>
+                            <div class="app-dashboard-actions">
+                                <a href="{{ route('client.orders') }}" class="app-btn app-btn--primary">Mes commandes</a>
+                                <a href="{{ route('front.shop') }}" class="app-btn app-btn--outline">Continuer les achats</a>
+                                <a href="{{ route('client.logout') }}" class="app-btn app-btn--outline">Déconnexion</a>
                             </div>
-                            <a href="{{ route('client.orders') }}">Voir mes commandes</a>
+                        @else
+                            <p class="app-section-lead">Connectez-vous pour accéder à votre espace.</p>
+                            <div class="app-dashboard-actions">
+                                <a href="{{ route('client.login') }}" class="app-btn app-btn--primary">Connexion</a>
+                                <a href="{{ route('client.register') }}" class="app-btn app-btn--outline">Créer un compte</a>
+                            </div>
                         @endauth
-                        @guest
-                            <a href="{{ route('client.login') }}">Connexion ou inscription</a>
-                        @endguest
                     </div>
                 </div>
 
-                <!-- Card d'informations de livraison -->
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Informations de livraison</h4>
-                        </div>
-                        <div class="card-body">
+                <div class="col-lg-4">
+                    <div class="app-card">
+                        <div class="app-card__body">
+                            <h3 class="app-card__title">Livraison</h3>
                             @if ($deliveryInfo)
-                                <p><strong>Adresse :</strong> {{ $deliveryInfo->address }}</p>
-                                <p><strong>Code postal :</strong> {{ $deliveryInfo->postal_code }}</p>
-                                <p><strong>Ville :</strong> {{ $deliveryInfo->city }}</p>
-                                <p><strong>Téléphone :</strong> {{ $deliveryInfo->phone }}</p>
-                                <p><strong>Pays :</strong> {{ $deliveryInfo->country }}</p>
-                                <a href="{{ route('delivery.edit') }}" class="btn btn-primary">Modifier les informations de livraison</a>
+                                <ul class="list-unstyled small mb-3" style="color:#555;line-height:1.8;">
+                                    <li><strong>Adresse</strong><br>{{ $deliveryInfo->address }}</li>
+                                    <li><strong>Code postal</strong> {{ $deliveryInfo->postal_code }}</li>
+                                    <li><strong>Ville</strong> {{ $deliveryInfo->city }}</li>
+                                    <li><strong>Pays</strong> {{ $deliveryInfo->country }}</li>
+                                    <li><strong>Téléphone</strong> {{ $deliveryInfo->phone }}</li>
+                                </ul>
+                                <a href="{{ route('delivery.edit') }}" class="app-btn app-btn--primary" style="width:100%;">Modifier</a>
                             @else
-                                <p>Vous n'avez pas encore ajouté d'informations de livraison.</p>
-                                <a href="{{ route('delivery.create') }}" class="btn btn-primary">Ajouter</a>
+                                <p class="app-section-lead mb-3">Aucune adresse enregistrée.</p>
+                                <a href="{{ route('delivery.create') }}" class="app-btn app-btn--primary" style="width:100%;">Ajouter une adresse</a>
                             @endif
                         </div>
                     </div>

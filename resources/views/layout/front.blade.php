@@ -7,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <!-- Mobile Metas -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
   <!-- Site Metas -->
   <meta name="keywords" content="" />
   <meta name="description" content="" />
@@ -27,6 +28,7 @@
   <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
   <!-- responsive style -->
   <link href="{{ asset('assets/css/responsive.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/css/app-ui.css') }}" rel="stylesheet" />
 </head>
 
 <body>
@@ -125,6 +127,8 @@
   <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
   </script>
+  {{-- Pushes (ex. Stripe panier) avant custom.js pour éviter qu'une erreur dans custom.js bloque le paiement --}}
+  @stack('scripts')
   <script src="{{ asset('assets/js/custom.js') }}"></script>
 
 </body>
