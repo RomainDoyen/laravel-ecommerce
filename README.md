@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/assets/images/favicon.png" width="200" height="48" alt="Logo Ecommerce">
+  <img src="public/assets/images/favicon.png" width="48" height="48" alt="Logo Ecommerce">
 </p>
 
 # Ecommerce — boutique en ligne
