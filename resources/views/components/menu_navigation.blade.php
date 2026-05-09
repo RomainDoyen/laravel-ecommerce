@@ -11,20 +11,20 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav">
-            <li class="nav-item active">
+            <li class="nav-item {{ request()->routeIs('front.index') ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('front.index') }}">Acceuil</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {{ request()->routeIs('front.shop', 'front.details', 'search') ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('front.shop') }}">
                 Boutique
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {{ request()->routeIs('front.about') ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('front.about') }}">
                 Qui somme-nous ?
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {{ request()->routeIs('front.contact') ? 'active' : '' }}">
               <a class="nav-link" href="{{ route('front.contact') }}">Contacter nous</a>
             </li>
           </ul>

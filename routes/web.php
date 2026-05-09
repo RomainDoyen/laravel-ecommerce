@@ -66,7 +66,8 @@ Route::group(['prefix' => 'client'], function () {
   Route::get('/logout', [ClientsController::class, 'logout'])->name('client.logout');
   Route::get('/forgot-password', [ClientsController::class, 'forgot_password'])->name('client.forgot-password');
   Route::post('/forgot-password', [ClientsController::class, 'handleResetPassword'])->name('client.handleResetPassword');
-  Route::get('/reset-password/{token}', [ClientsController::class, 'resetPasswordToken'])->name('client.reset-password');
+  // Nom « password.reset » requis par Illuminate\Auth\Notifications\ResetPassword (Password::sendResetLink).
+  Route::get('/reset-password/{token}', [ClientsController::class, 'resetPasswordToken'])->name('password.reset');
   Route::post('/reset-password', [ClientsController::class, 'resetPassword'])->name('client.reset-password.post');
 });
 

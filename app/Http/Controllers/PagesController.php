@@ -36,7 +36,11 @@ class PagesController extends Controller
     {
         $user = auth()->user();
 
-        if (!$user->deliveryInfo) {
+        if (! $user) {
+            return redirect()->route('client.login')->with('error_cart', 'Vous devez être connecté pour voir votre panier.');
+        }
+
+        if (! $user->deliveryInfo) {
             return redirect()->route('delivery.create')->with('error', 'Veuillez ajouter vos informations de livraison avant de passer à la commande.');
         }
         // $carts = Cart::where('user_id', Auth::id())->get();
